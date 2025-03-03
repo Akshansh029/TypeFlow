@@ -10,12 +10,18 @@ import {
 } from "../utils/calculations";
 import PerformanceGraph from "./PerformanceGraph";
 
+interface WPMDataPoint {
+  time: number;
+  wpm: number;
+}
+
 export default function TypingTest() {
   const [text, setText] = useState("");
   const [userInput, setUserInput] = useState("");
   const [timer, setTimer] = useState(30);
   const [isActive, setIsActive] = useState(false);
   const [results, setResults] = useState<Results | null>(null);
+  const [wpmData, setWpmData] = useState<WPMDataPoint[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Use refs to store counts so they always reflect the latest values.
@@ -80,6 +86,28 @@ export default function TypingTest() {
           calculateResults();
           return 0;
         }
+
+        // Calculate current WPM
+        const elapsedTime = (30 - prevTime + 1) / 60; // Convert to minutes
+        const currentGrossWPM = calculateGrossWPM(
+          totalTypedCharsRef.current,
+          elapsedTime
+        );
+        const currentNetWPM = calculateNetWPM(
+          currentGrossWPM,
+          errorCountRef.current,
+          elapsedTime
+        );
+
+        // Add new data point
+        setWpmData((prev) => [
+          ...prev,
+          {
+            time: 30 - prevTime + 1,
+            wpm: currentNetWPM,
+          },
+        ]);
+
         return prevTime - 1;
       });
     }, 1000);
@@ -117,6 +145,7 @@ export default function TypingTest() {
     totalTypedCharsRef.current = 0;
     totalCorrectCharsRef.current = 0;
     errorCountRef.current = 0;
+    setWpmData([]);
     inputRef.current?.focus();
   };
 
@@ -167,7 +196,7 @@ export default function TypingTest() {
                 </span>
               </div>
             </div>
-            <PerformanceGraph results={results} />
+            <PerformanceGraph results={results} wpmData={wpmData} />
           </div>
           <button
             onClick={restart}
