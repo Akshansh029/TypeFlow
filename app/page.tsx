@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="min-h-screen py-8 bg-[#131615]">
       <header className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-2">Typing Speed Test</h1>
+        <h1 className="text-4xl font-bold mb-2 text-green-400">TypeFlow</h1>
         <p className="text-gray-600 dark:text-gray-400">
           Test your typing speed and improve your skills
         </p>

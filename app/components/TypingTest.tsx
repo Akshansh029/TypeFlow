@@ -8,6 +8,7 @@ import {
   calculateAccuracy,
   Results,
 } from "../utils/calculations";
+import PerformanceGraph from "./PerformanceGraph";
 
 export default function TypingTest() {
   const [text, setText] = useState("");
@@ -122,7 +123,7 @@ export default function TypingTest() {
   return (
     <div className="relative max-w-full mx-auto p-8 space-y-8 bg-[#131615] rounded-xl">
       <div className="flex justify-around items-center">
-        <h1 className="text-3xl font-bold text-green-400">Typing Test</h1>
+        <h1 className="text-3xl font-semibold text-green-400">Timer: </h1>
         <div className="text-5xl font-mono text-gray-300">{timer}</div>
       </div>
 
@@ -132,7 +133,7 @@ export default function TypingTest() {
             const userChar = userInput[i];
             let color = "text-gray-500";
             if (userChar != null) {
-              color = userChar === char ? "text-green-400" : "text-red-400";
+              color = userChar === char ? "text-neutral-200" : "text-red-400";
             }
             return (
               <span key={i} className={color}>
@@ -144,11 +145,29 @@ export default function TypingTest() {
       </div>
 
       {results ? (
-        <div className="text-center">
-          <div className="text-2xl space-y-2">
-            <p className="text-green-400">Words Per Minute: {results.netWPM}</p>
-            <p className="text-yellow-500">Raw WPM: {results.grossWPM}</p>
-            <p className="text-blue-400">Accuracy: {results.accuracy}%</p>
+        <div className="flex flex-col items-center gap-12">
+          <div className="mx-auto flex items-center justify-center gap-12">
+            <div className="text-2xl space-y-2">
+              <div className="flex flex-col items-start gap-1">
+                <p className="text-gray-500 text-xl">wpm</p>
+                <span className="text-green-400 text-5xl">
+                  {results.netWPM}
+                </span>
+              </div>
+              <div className="flex flex-col items-start gap-1">
+                <p className="text-gray-500 text-xl">raw</p>
+                <span className="text-green-400 text-5xl">
+                  {results.grossWPM}
+                </span>
+              </div>
+              <div className="flex flex-col items-start gap-1">
+                <p className="text-gray-500 text-xl">acc</p>
+                <span className="text-green-400 text-5xl">
+                  {results.accuracy}%
+                </span>
+              </div>
+            </div>
+            <PerformanceGraph results={results} />
           </div>
           <button
             onClick={restart}
