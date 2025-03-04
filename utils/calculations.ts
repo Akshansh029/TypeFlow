@@ -4,11 +4,7 @@ const calculateGrossWPM = (totalTyped: number, timeInSeconds: number) => {
   if (timeInSeconds === 0) return 0;
 
   const timeInMinutes = timeInSeconds / 60;
-  const grossWPM = Math.round(totalTyped / 5 / timeInMinutes);
-
-  wpmHistory.push(grossWPM);
-
-  return grossWPM;
+  return Math.round(totalTyped / 5 / timeInMinutes);
 };
 
 const calculateNetWPM = (
@@ -16,7 +12,11 @@ const calculateNetWPM = (
   errors: number,
   timeInMinutes: number
 ) => {
-  return Math.max(0, Math.round(grossWPM - errors / timeInMinutes));
+  const netWPM = Math.max(0, Math.round(grossWPM - errors / timeInMinutes));
+
+  wpmHistory.push(netWPM);
+
+  return netWPM;
 };
 
 const calculateAccuracy = (correct: number, total: number) => {

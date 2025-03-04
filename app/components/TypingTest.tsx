@@ -13,7 +13,6 @@ import {
 import PerformanceGraph from "./PerformanceGraph";
 import { Button } from "@/components/ui/button";
 import { RotateCw } from "lucide-react";
-import { MenuBar } from "./Menu";
 import { useMenuStore } from "@/lib/store";
 
 interface WPMDataPoint {
@@ -22,7 +21,7 @@ interface WPMDataPoint {
 }
 
 export default function TypingTest() {
-  const { selectedTime } = useMenuStore();
+  const { selectedMode, selectedTime } = useMenuStore();
   const [text, setText] = useState("");
   const [userInput, setUserInput] = useState("");
   const [timer, setTimer] = useState<number>(selectedTime);
@@ -38,9 +37,26 @@ export default function TypingTest() {
 
   // On mount, generate initial words and focus the hidden input.
   useEffect(() => {
-    setText(generateWords(40) || "");
-    inputRef.current?.focus();
-  }, []);
+    if (selectedMode === "hard") {
+      generateWords(20, selectedMode)
+        .then((words) => setText(words))
+        .catch(() => setText(""));
+
+      setUserInput("");
+      setIsActive(false);
+
+      inputRef.current?.focus();
+    } else {
+      generateWords(40, selectedMode)
+        .then((words) => setText(words))
+        .catch(() => setText(""));
+
+      setUserInput("");
+      setIsActive(false);
+
+      inputRef.current?.focus();
+    }
+  }, [selectedMode]);
 
   const handleInputBlur = () => {
     // Hidden input stays focused.
@@ -77,8 +93,25 @@ export default function TypingTest() {
   // When the user finishes the current set, generate a new set.
   useEffect(() => {
     if (isActive && userInput.length >= text.length) {
-      setText(generateWords(40) || "");
-      setUserInput("");
+      if (selectedMode === "hard") {
+        generateWords(20, selectedMode)
+          .then((words) => setText(words))
+          .catch(() => setText(""));
+
+        setUserInput("");
+        setIsActive(false);
+
+        inputRef.current?.focus();
+      } else {
+        generateWords(40, selectedMode)
+          .then((words) => setText(words))
+          .catch(() => setText(""));
+
+        setUserInput("");
+        setIsActive(false);
+
+        inputRef.current?.focus();
+      }
     }
   }, [userInput, text, isActive]);
 
@@ -124,7 +157,7 @@ export default function TypingTest() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isActive, timer, selectedTime]);
+  }, [isActive, timer, selectedTime, selectedMode]);
 
   // Calculate and set the final results.
   const calculateResults = () => {
@@ -150,7 +183,23 @@ export default function TypingTest() {
 
   // Restart test
   const restart = () => {
-    setText(generateWords(40) || "");
+    if (selectedMode === "hard") {
+      generateWords(20, selectedMode)
+        .then((words) => setText(words))
+        .catch(() => setText(""));
+
+      setUserInput("");
+      setIsActive(false);
+
+      inputRef.current?.focus();
+    } else {
+      generateWords(40, selectedMode)
+        .then((words) => setText(words))
+        .catch(() => setText(""));
+
+      setUserInput("");
+      setIsActive(false);
+    }
     setUserInput("");
     setTimer(selectedTime);
     setResults(null);
@@ -160,20 +209,19 @@ export default function TypingTest() {
     errorCountRef.current = 0;
     setWpmData([]);
     wpmHistory.length = 0;
-    inputRef.current?.focus();
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 50);
   };
 
   return (
-    <div className="relative max-w-full mx-auto p-8 space-y-8 bg-[#131615] rounded-xl flex flex-col items-center justify-center">
+    <div className="relative max-w-full mx-auto p-8 gap-2 bg-[#131615] rounded-xl flex flex-col items-center justify-center">
       <div className="flex justify-around items-center gap-12">
         <h1 className="text-3xl font-semibold text-green-400">Timer: </h1>
         <div className="text-4xl font-mono text-gray-300">{timer}</div>
       </div>
-
-      <MenuBar />
-
       <div className="transparent p-2 mx-auto rounded-lg min-h-[200px] flex items-center justify-center w-full">
-        <p className="text-3xl font-light tracking-wide leading-relaxed max-w-6xl">
+        <p className="text-3xl font-light text-center tracking-wide leading-relaxed max-w-6xl">
           {text.split("").map((char, i) => {
             const userChar = userInput[i];
             let color = "text-gray-500";
@@ -230,8 +278,8 @@ export default function TypingTest() {
           value={userInput}
           onChange={handleChange}
           onBlur={handleInputBlur}
-          autoFocus
-          className="absolute opacity-0"
+          autoFocus={isActive}
+          className="absolute opacity-0 text-center"
           aria-label="Typing input"
         />
       )}

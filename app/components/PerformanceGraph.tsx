@@ -1,4 +1,6 @@
 "use client";
+import { Line } from "react-chartjs-2";
+import { Results } from "../../utils/calculations";
 
 import {
   Chart as ChartJS,
@@ -10,8 +12,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
-import { Results } from "../../utils/calculations";
 
 ChartJS.register(
   CategoryScale,

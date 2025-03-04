@@ -1,8 +1,9 @@
+import { MenuBar } from "./components/Menu";
 import TypingTest from "./components/TypingTest";
 
 export default function Home() {
   return (
-    <div className="min-h-screen py-8 bg-[#131615]">
+    <div className="min-h-screen py-8 flex flex-col items-center gap-4 bg-[#131615]">
       <header className="text-center mb-4">
         <div className="flex items-center justify-center gap-1">
           <h1 className="text-4xl font-bold mb-2 text-green-400">TypeFlow</h1>
@@ -11,6 +12,8 @@ export default function Home() {
           Test your typing speed and improve your skills
         </p>
       </header>
+
+      <MenuBar />
 
       <TypingTest />
 
