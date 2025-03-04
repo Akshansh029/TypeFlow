@@ -9,6 +9,9 @@ import {
   Results,
 } from "../utils/calculations";
 import PerformanceGraph from "./PerformanceGraph";
+import { Button } from "@/components/ui/button";
+import { RotateCw } from "lucide-react";
+import { MenuBar } from "./Menu";
 
 interface WPMDataPoint {
   time: number;
@@ -150,11 +153,13 @@ export default function TypingTest() {
   };
 
   return (
-    <div className="relative max-w-full mx-auto p-8 space-y-8 bg-[#131615] rounded-xl">
-      <div className="flex justify-around items-center">
+    <div className="relative max-w-full mx-auto p-8 space-y-8 bg-[#131615] rounded-xl flex flex-col items-center justify-center">
+      <div className="flex justify-around items-center gap-12">
         <h1 className="text-3xl font-semibold text-green-400">Timer: </h1>
-        <div className="text-5xl font-mono text-gray-300">{timer}</div>
+        <div className="text-4xl font-mono text-gray-300">{timer}</div>
       </div>
+
+      <MenuBar />
 
       <div className="transparent p-2 mx-auto rounded-lg min-h-[200px] flex items-center justify-center w-full">
         <p className="text-3xl font-light tracking-wide leading-relaxed max-w-6xl">
@@ -198,15 +203,16 @@ export default function TypingTest() {
             </div>
             <PerformanceGraph results={results} wpmData={wpmData} />
           </div>
-          <button
+          <Button
             onClick={restart}
-            className="mt-6 px-8 py-3 bg-green-500 hover:bg-green-600 text-white rounded-full transition-colors"
+            variant={"outline"}
+            className="cursor-pointer"
           >
-            Try Again
-          </button>
+            <RotateCw />
+            Restart
+          </Button>
         </div>
       ) : (
-        // Hidden input for capturing typing.
         <input
           type="text"
           ref={inputRef}

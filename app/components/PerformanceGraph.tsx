@@ -9,7 +9,6 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartOptions,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { Results } from "../utils/calculations";
@@ -58,7 +57,7 @@ export default function PerformanceGraph({ wpmData }: PerformanceGraphProps) {
       },
       tooltip: {
         callbacks: {
-          label: (context: unknown) => `WPM: ${Math.round(context.raw)}`,
+          label: (context: any) => `WPM: ${Math.round(context.raw)}`,
         },
       },
     },
