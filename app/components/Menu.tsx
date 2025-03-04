@@ -21,7 +21,7 @@ type MenuItem = {
 
 // Define type for size options
 type SizeOption = {
-  id: string;
+  id: number;
   icon: ElementType;
   label: string;
 };
@@ -38,11 +38,11 @@ const menuItems: MenuItem[] = [
 
 // Time selection options
 const sizeOptions: SizeOption[] = [
-  { id: "10", icon: Clock, label: "10" },
-  { id: "20", icon: Clock, label: "20" },
-  { id: "30", icon: Clock, label: "30" },
-  { id: "50", icon: Clock, label: "50" },
-  { id: "100", icon: Clock, label: "100" },
+  { id: 10, icon: Clock, label: "10" },
+  { id: 20, icon: Clock, label: "20" },
+  { id: 30, icon: Clock, label: "30" },
+  { id: 50, icon: Clock, label: "50" },
+  { id: 100, icon: Clock, label: "100" },
 ];
 
 export function MenuBar() {

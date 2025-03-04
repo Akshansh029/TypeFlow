@@ -11,7 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { Results } from "../utils/calculations";
+import { Results } from "../../utils/calculations";
 
 ChartJS.register(
   CategoryScale,

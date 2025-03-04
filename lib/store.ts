@@ -5,8 +5,8 @@ export type TimeOption = 10 | 20 | 30 | 50 | 100;
 interface TestStore {
   selectedItem: string | null;
   setSelectedItem: (item: string) => void;
-  selectedTime: TimeOption;
-  setSelectedTime: (time: TimeOption) => void;
+  selectedTime: number;
+  setSelectedTime: (time: number) => void;
 }
 
 export const useMenuStore = create<TestStore>((set) => ({

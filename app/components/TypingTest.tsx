@@ -1,13 +1,15 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { generateWords } from "../utils/words";
+import { generateWords } from "../../utils/words";
 import {
   calculateGrossWPM,
   calculateNetWPM,
   calculateAccuracy,
+  calculateAverageWPM,
+  wpmHistory,
   Results,
-} from "../utils/calculations";
+} from "../../utils/calculations";
 import PerformanceGraph from "./PerformanceGraph";
 import { Button } from "@/components/ui/button";
 import { RotateCw } from "lucide-react";
@@ -23,13 +25,13 @@ export default function TypingTest() {
   const { selectedTime } = useMenuStore();
   const [text, setText] = useState("");
   const [userInput, setUserInput] = useState("");
-  const [timer, setTimer] = useState(selectedTime);
+  const [timer, setTimer] = useState<number>(selectedTime);
   const [isActive, setIsActive] = useState(false);
   const [results, setResults] = useState<Results | null>(null);
   const [wpmData, setWpmData] = useState<WPMDataPoint[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Use refs to store counts so they always reflect the latest values.
+  // Using refs to store counts so they always reflect the latest values.
   const totalTypedCharsRef = useRef(0);
   const totalCorrectCharsRef = useRef(0);
   const errorCountRef = useRef(0);
@@ -40,8 +42,8 @@ export default function TypingTest() {
     inputRef.current?.focus();
   }, []);
 
-  // Ensure the hidden input stays focused.
   const handleInputBlur = () => {
+    // Hidden input stays focused.
     inputRef.current?.focus();
   };
 
@@ -80,25 +82,21 @@ export default function TypingTest() {
     }
   }, [userInput, text, isActive]);
 
-  // Update timer when selectedTime changes
+  // Update timer when selectedTime changes.
   useEffect(() => {
     setTimer(selectedTime);
   }, [selectedTime]);
 
-  // Update timer countdown effect to use selectedTime
+  // Timer countdown effect with WPM history update.
   useEffect(() => {
     if (!isActive || timer <= 0) return;
 
     const interval = setInterval(() => {
       setTimer((prevTime) => {
-        if (prevTime <= 1) {
-          clearInterval(interval);
-          calculateResults();
-          return 0;
-        }
+        // Calculate elapsed time in seconds.
+        const elapsedTime = selectedTime - prevTime + 1;
 
-        // Calculate current WPM using selectedTime
-        const elapsedTime = (selectedTime - prevTime + 1) / 60;
+        // Calculate current gross and net WPM.
         const currentGrossWPM = calculateGrossWPM(
           totalTypedCharsRef.current,
           elapsedTime
@@ -106,17 +104,21 @@ export default function TypingTest() {
         const currentNetWPM = calculateNetWPM(
           currentGrossWPM,
           errorCountRef.current,
-          elapsedTime
+          elapsedTime / 60 // Convert seconds to minutes for net calculation.
         );
 
+        // Record the WPM data for charting.
         setWpmData((prev) => [
           ...prev,
-          {
-            time: selectedTime - prevTime + 1,
-            wpm: currentNetWPM,
-          },
+          { time: elapsedTime, wpm: currentNetWPM },
         ]);
 
+        // When time is up, clear interval and calculate final results.
+        if (prevTime <= 1) {
+          clearInterval(interval);
+          calculateResults();
+          return 0;
+        }
         return prevTime - 1;
       });
     }, 1000);
@@ -124,12 +126,13 @@ export default function TypingTest() {
     return () => clearInterval(interval);
   }, [isActive, timer, selectedTime]);
 
-  // Update calculateResults to use selectedTime
+  // Calculate and set the final results.
   const calculateResults = () => {
-    const timeInMinutes = selectedTime / 60;
+    const timeInSeconds = selectedTime;
+    const timeInMinutes = timeInSeconds / 60;
     const grossWPM = calculateGrossWPM(
       totalTypedCharsRef.current,
-      timeInMinutes
+      timeInSeconds
     );
     const netWPM = calculateNetWPM(
       grossWPM,
@@ -140,11 +143,12 @@ export default function TypingTest() {
       totalCorrectCharsRef.current,
       totalTypedCharsRef.current
     );
-    setResults({ grossWPM, netWPM, accuracy });
+    const averageWPM = calculateAverageWPM();
+    setResults({ grossWPM, netWPM, accuracy, averageWPM });
     setIsActive(false);
   };
 
-  // Update restart function
+  // Restart test
   const restart = () => {
     setText(generateWords(40) || "");
     setUserInput("");
@@ -155,6 +159,7 @@ export default function TypingTest() {
     totalCorrectCharsRef.current = 0;
     errorCountRef.current = 0;
     setWpmData([]);
+    wpmHistory.length = 0;
     inputRef.current?.focus();
   };
 
@@ -189,9 +194,9 @@ export default function TypingTest() {
           <div className="mx-auto flex items-center justify-center gap-12">
             <div className="text-2xl space-y-2">
               <div className="flex flex-col items-start gap-1">
-                <p className="text-gray-500 text-xl">wpm</p>
+                <p className="text-gray-500 text-xl">avg wpm</p>
                 <span className="text-green-400 text-5xl">
-                  {results.netWPM}
+                  {results.averageWPM}
                 </span>
               </div>
               <div className="flex flex-col items-start gap-1">
