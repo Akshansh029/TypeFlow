@@ -1,8 +1,5 @@
-"use client";
-
-import type React from "react";
-
-import { useState } from "react";
+import { useMenuStore } from "@/lib/store";
+import type { ElementType } from "react";
 import {
   AtSign,
   Hash,
@@ -11,17 +8,25 @@ import {
   Quote,
   Triangle,
   Wrench,
-  Settings,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+// Define type for menu items
 type MenuItem = {
   id: string;
-  icon: React.ElementType;
+  icon: ElementType;
   label: string;
 };
 
+// Define type for size options
+type SizeOption = {
+  id: string;
+  icon: ElementType;
+  label: string;
+};
+
+// Menu categories
 const menuItems: MenuItem[] = [
   { id: "punctuation", icon: AtSign, label: "punctuation" },
   { id: "numbers", icon: Hash, label: "numbers" },
@@ -31,19 +36,21 @@ const menuItems: MenuItem[] = [
   { id: "custom", icon: Wrench, label: "custom" },
 ];
 
-const sizeOptions: MenuItem[] = [
+// Time selection options
+const sizeOptions: SizeOption[] = [
   { id: "10", icon: Clock, label: "10" },
-  { id: "25", icon: Clock, label: "25" },
+  { id: "20", icon: Clock, label: "20" },
+  { id: "30", icon: Clock, label: "30" },
   { id: "50", icon: Clock, label: "50" },
   { id: "100", icon: Clock, label: "100" },
 ];
 
 export function MenuBar() {
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const { selectedItem, setSelectedItem, selectedTime, setSelectedTime } =
+    useMenuStore();
 
   return (
-    <div className="w-min flex items-center justify-center gap-6 bg-[#1a1a1a] p-2 rounded-lg">
+    <div className="min-w-[600px] flex items-center justify-center gap-6 bg-[#1a1a1a] p-2 rounded-lg">
       <div className="flex items-center space-x-1 overflow-x-auto">
         {menuItems.map((item) => {
           const isSelected = selectedItem === item.id;
@@ -66,7 +73,8 @@ export function MenuBar() {
           );
         })}
       </div>
-      <div className="flex items-center space-x-1">
+      <div className="flex items-center justify-center space-x-1">
+        <p className="text-gray-300">Time : </p>
         {sizeOptions.map((size) => {
           const isSelectedTime = selectedTime === size.id;
           return (
@@ -84,13 +92,6 @@ export function MenuBar() {
             </Button>
           );
         })}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="text-gray-300 hover:text-white hover:bg-gray-700 rounded-full h-8 w-8"
-        >
-          <Settings className="h-4 w-4" />
-        </Button>
       </div>
     </div>
   );

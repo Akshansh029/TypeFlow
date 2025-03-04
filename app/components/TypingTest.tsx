@@ -12,6 +12,7 @@ import PerformanceGraph from "./PerformanceGraph";
 import { Button } from "@/components/ui/button";
 import { RotateCw } from "lucide-react";
 import { MenuBar } from "./Menu";
+import { useMenuStore } from "@/lib/store";
 
 interface WPMDataPoint {
   time: number;
@@ -19,9 +20,10 @@ interface WPMDataPoint {
 }
 
 export default function TypingTest() {
+  const { selectedTime } = useMenuStore();
   const [text, setText] = useState("");
   const [userInput, setUserInput] = useState("");
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(selectedTime);
   const [isActive, setIsActive] = useState(false);
   const [results, setResults] = useState<Results | null>(null);
   const [wpmData, setWpmData] = useState<WPMDataPoint[]>([]);
@@ -78,7 +80,12 @@ export default function TypingTest() {
     }
   }, [userInput, text, isActive]);
 
-  // Timer countdown effect.
+  // Update timer when selectedTime changes
+  useEffect(() => {
+    setTimer(selectedTime);
+  }, [selectedTime]);
+
+  // Update timer countdown effect to use selectedTime
   useEffect(() => {
     if (!isActive || timer <= 0) return;
 
@@ -90,8 +97,8 @@ export default function TypingTest() {
           return 0;
         }
 
-        // Calculate current WPM
-        const elapsedTime = (30 - prevTime + 1) / 60; // Convert to minutes
+        // Calculate current WPM using selectedTime
+        const elapsedTime = (selectedTime - prevTime + 1) / 60;
         const currentGrossWPM = calculateGrossWPM(
           totalTypedCharsRef.current,
           elapsedTime
@@ -102,11 +109,10 @@ export default function TypingTest() {
           elapsedTime
         );
 
-        // Add new data point
         setWpmData((prev) => [
           ...prev,
           {
-            time: 30 - prevTime + 1,
+            time: selectedTime - prevTime + 1,
             wpm: currentNetWPM,
           },
         ]);
@@ -116,11 +122,11 @@ export default function TypingTest() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isActive, timer]);
+  }, [isActive, timer, selectedTime]);
 
-  // Calculate the final results using the latest counts.
+  // Update calculateResults to use selectedTime
   const calculateResults = () => {
-    const timeInMinutes = 0.5;
+    const timeInMinutes = selectedTime / 60;
     const grossWPM = calculateGrossWPM(
       totalTypedCharsRef.current,
       timeInMinutes
@@ -138,11 +144,11 @@ export default function TypingTest() {
     setIsActive(false);
   };
 
-  // Restart the test.
+  // Update restart function
   const restart = () => {
     setText(generateWords(40) || "");
     setUserInput("");
-    setTimer(30);
+    setTimer(selectedTime);
     setResults(null);
     setIsActive(false);
     totalTypedCharsRef.current = 0;
