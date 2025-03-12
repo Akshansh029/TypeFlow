@@ -159,7 +159,6 @@ export default function TypingTest() {
     return () => clearInterval(interval);
   }, [isActive, timer, selectedTime, selectedMode]);
 
-  // Calculate and set the final results.
   const calculateResults = () => {
     const timeInSeconds = selectedTime;
     const timeInMinutes = timeInSeconds / 60;
@@ -177,6 +176,10 @@ export default function TypingTest() {
       totalTypedCharsRef.current
     );
     const averageWPM = calculateAverageWPM();
+
+    // Only store the final result, not during every second
+    wpmHistory.push(netWPM);
+
     setResults({ grossWPM, netWPM, accuracy, averageWPM });
     setIsActive(false);
   };
@@ -215,74 +218,102 @@ export default function TypingTest() {
   };
 
   return (
-    <div className="relative max-w-full mx-auto p-8 gap-2 bg-[#131615] rounded-xl flex flex-col items-center justify-center">
-      <div className="flex justify-around items-center gap-12">
-        <h1 className="text-3xl font-semibold text-green-400">Timer: </h1>
-        <div className="text-4xl font-mono text-gray-300">{timer}</div>
-      </div>
-      <div className="transparent p-2 mx-auto rounded-lg min-h-[200px] flex items-center justify-center w-full">
-        <p className="text-3xl font-light text-center tracking-wide leading-relaxed max-w-6xl">
-          {text.split("").map((char, i) => {
-            const userChar = userInput[i];
-            let color = "text-gray-500";
-            if (userChar != null) {
-              color = userChar === char ? "text-neutral-200" : "text-red-400";
-            }
-            return (
-              <span key={i} className={color}>
-                {char}
-              </span>
-            );
-          })}
+    <>
+      {/* Mobile Warning */}
+      <div className="md:hidden flex flex-col items-center justify-center min-h-screen p-4 bg-[#131615] text-center">
+        <h2 className="text-2xl text-green-400 font-semibold mb-4">
+          ⚠️ Desktop Only
+        </h2>
+        <p className="text-gray-300">
+          This typing test is optimized for desktop/laptop use. Please switch to
+          a computer for the best experience.
         </p>
       </div>
 
-      {results ? (
-        <div className="flex flex-col items-center gap-12">
-          <div className="mx-auto flex items-center justify-center gap-12">
-            <div className="text-2xl space-y-2">
-              <div className="flex flex-col items-start gap-1">
-                <p className="text-gray-500 text-xl">avg wpm</p>
-                <span className="text-green-400 text-5xl">
-                  {results.averageWPM}
-                </span>
-              </div>
-              <div className="flex flex-col items-start gap-1">
-                <p className="text-gray-500 text-xl">raw</p>
-                <span className="text-green-400 text-5xl">
-                  {results.grossWPM}
-                </span>
-              </div>
-              <div className="flex flex-col items-start gap-1">
-                <p className="text-gray-500 text-xl">acc</p>
-                <span className="text-green-400 text-5xl">
-                  {results.accuracy}%
-                </span>
-              </div>
+      {/* Desktop App */}
+      <div className="hidden md:block">
+        <div className="relative max-w-full mx-auto p-8 gap-2 bg-[#131615] rounded-xl flex flex-col items-center justify-center">
+          {/* {selectedMode === "time" && ( */}
+          <div className="flex justify-center items-center gap-4 sm:gap-12 w-full">
+            <h1 className="text-xl sm:text-3xl font-semibold text-green-400">
+              Timer:{" "}
+            </h1>
+            <div className="text-2xl sm:text-4xl font-mono text-gray-300">
+              {timer}
             </div>
-            <PerformanceGraph results={results} wpmData={wpmData} />
           </div>
-          <Button
-            onClick={restart}
-            variant={"outline"}
-            className="cursor-pointer"
-          >
-            <RotateCw />
-            Restart
-          </Button>
+          {/* )} */}
+
+          <div className="transparent p-2 mx-auto rounded-lg min-h-[150px] sm:min-h-[200px] flex items-center justify-center w-full">
+            <p className="text-lg sm:text-2xl md:text-3xl font-light text-center tracking-wide leading-relaxed max-w-[90vw] sm:max-w-6xl">
+              {text.split("").map((char, i) => {
+                const userChar = userInput[i];
+                let color = "text-gray-500";
+                if (userChar != null) {
+                  color =
+                    userChar === char ? "text-neutral-200" : "text-red-400";
+                }
+                return (
+                  <span key={i} className={color}>
+                    {char}
+                  </span>
+                );
+              })}
+            </p>
+          </div>
+
+          {results ? (
+            <div className="flex flex-col items-center gap-6 sm:gap-12 w-full">
+              <div className="w-full flex flex-col lg:flex-row items-center justify-center gap-6 sm:gap-12">
+                <div className="text-xl sm:text-2xl space-y-2">
+                  <div className="flex flex-col items-start gap-1">
+                    <p className="text-gray-500 text-base sm:text-xl">
+                      avg wpm
+                    </p>
+                    <span className="text-green-400 text-3xl sm:text-5xl">
+                      {results.averageWPM}
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-start gap-1">
+                    <p className="text-gray-500 text-base sm:text-xl">raw</p>
+                    <span className="text-green-400 text-3xl sm:text-5xl">
+                      {results.grossWPM}
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-start gap-1">
+                    <p className="text-gray-500 text-base sm:text-xl">acc</p>
+                    <span className="text-green-400 text-3xl sm:text-5xl">
+                      {results.accuracy}%
+                    </span>
+                  </div>
+                </div>
+                <div className="w-full sm:w-auto">
+                  <PerformanceGraph results={results} wpmData={wpmData} />
+                </div>
+              </div>
+              <Button
+                onClick={restart}
+                variant={"outline"}
+                className="cursor-pointer text-sm sm:text-base"
+              >
+                <RotateCw className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+                Restart
+              </Button>
+            </div>
+          ) : (
+            <input
+              type="text"
+              ref={inputRef}
+              value={userInput}
+              onChange={handleChange}
+              onBlur={handleInputBlur}
+              autoFocus={isActive}
+              className="absolute opacity-0 text-center"
+              aria-label="Typing input"
+            />
+          )}
         </div>
-      ) : (
-        <input
-          type="text"
-          ref={inputRef}
-          value={userInput}
-          onChange={handleChange}
-          onBlur={handleInputBlur}
-          autoFocus={isActive}
-          className="absolute opacity-0 text-center"
-          aria-label="Typing input"
-        />
-      )}
-    </div>
+      </div>
+    </>
   );
 }

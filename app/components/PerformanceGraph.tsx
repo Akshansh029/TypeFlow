@@ -11,6 +11,8 @@ import {
   Title,
   Tooltip,
   Legend,
+  TooltipItem,
+  ChartOptions,
 } from "chart.js";
 
 ChartJS.register(
@@ -48,7 +50,7 @@ export default function PerformanceGraph({ wpmData }: PerformanceGraphProps) {
     ],
   };
 
-  const options = {
+  const options: ChartOptions<"line"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -57,7 +59,8 @@ export default function PerformanceGraph({ wpmData }: PerformanceGraphProps) {
       },
       tooltip: {
         callbacks: {
-          label: (context: any) => `WPM: ${Math.round(context.raw)}`,
+          label: (context: TooltipItem<"line">) =>
+            `WPM: ${Math.round(context.raw as number)}`,
         },
       },
     },
@@ -74,7 +77,8 @@ export default function PerformanceGraph({ wpmData }: PerformanceGraphProps) {
         },
         ticks: {
           color: "#9CA3AF",
-          callback: (value: number) => Math.round(value),
+          callback: (tickValue: string | number) =>
+            Math.round(Number(tickValue)),
         },
       },
       x: {

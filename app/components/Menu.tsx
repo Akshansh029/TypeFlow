@@ -18,7 +18,6 @@ type SizeOption = {
   label: string;
 };
 
-// Menu categories
 const menuItems: MenuItem[] = [
   { id: "normal", icon: Type, label: "normal" },
   { id: "medium", icon: Type, label: "medium" },
@@ -28,7 +27,6 @@ const menuItems: MenuItem[] = [
   { id: "quote", icon: Quote, label: "quote" },
 ];
 
-// Time selection options
 const sizeOptions: SizeOption[] = [
   { id: 10, icon: Clock, label: "10" },
   { id: 20, icon: Clock, label: "20" },
@@ -42,8 +40,8 @@ export function MenuBar() {
     useMenuStore();
 
   return (
-    <div className="min-w-[600px] flex items-center justify-center gap-6 bg-[#1a1a1a] p-2 rounded-lg">
-      <div className="flex items-center space-x-1 overflow-x-auto">
+    <div className="hidden md:flex flex-col lg:flex-row min-w-full md:min-w-[600px] items-center justify-center gap-2 bg-[#1a1a1a] p-2 rounded-lg">
+      <div className="flex flex-wrap md:flex-nowrap items-center justify-center gap-1 w-full">
         {menuItems.map((item) => {
           const isSelected = selectedMode === item.id;
           return (
@@ -65,8 +63,8 @@ export function MenuBar() {
           );
         })}
       </div>
-      <div className="flex items-center justify-center space-x-1">
-        <p className="text-gray-300">Time : </p>
+      <div className="flex flex-wrap md:flex-nowrap items-center justify-center gap-1 w-full">
+        <p className="text-gray-300">Time :</p>
         {sizeOptions.map((size) => {
           const isSelectedTime = selectedTime === size.id;
           return (
