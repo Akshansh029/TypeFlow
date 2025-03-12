@@ -251,11 +251,11 @@ export async function generateWords(
 
 async function getRandomQuote(): Promise<string> {
   try {
-    const response = await fetch("https://zenquotes.io/api/random");
+    const response = await fetch("/api/quote");
     if (!response.ok) throw new Error("Failed to fetch quote");
 
     const data = await response.json();
-    return `${data[0].q} - ${data[0].a}`;
+    return `${data.q}`;
   } catch (error) {
     console.error(error);
     return "Failed to load quote. Please try again.";
