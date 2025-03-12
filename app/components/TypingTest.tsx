@@ -7,7 +7,6 @@ import {
   calculateNetWPM,
   calculateAccuracy,
   calculateAverageWPM,
-  wpmHistory,
   Results,
 } from "../../utils/calculations";
 import PerformanceGraph from "./PerformanceGraph";
@@ -21,6 +20,7 @@ interface WPMDataPoint {
 }
 
 export default function TypingTest() {
+  const [wpmHistory, setWpmHistory] = useState<number[]>([]);
   const { selectedMode, selectedTime } = useMenuStore();
   const [text, setText] = useState("");
   const [userInput, setUserInput] = useState("");
@@ -175,14 +175,21 @@ export default function TypingTest() {
       totalCorrectCharsRef.current,
       totalTypedCharsRef.current
     );
-    const averageWPM = calculateAverageWPM();
 
-    // Only store the final result, not during every second
-    wpmHistory.push(netWPM);
-
-    setResults({ grossWPM, netWPM, accuracy, averageWPM });
-    setIsActive(false);
+    setWpmHistory((prev) => [...prev, netWPM]); // Persist history in state
+    setResults({
+      grossWPM,
+      netWPM,
+      accuracy,
+      averageWPM: calculateAverageWPM([...wpmHistory, netWPM]),
+    });
   };
+
+  useEffect(() => {
+    if (results) {
+      setWpmHistory((prev) => [...prev, results.netWPM]);
+    }
+  }, [results]);
 
   // Restart test
   const restart = () => {
