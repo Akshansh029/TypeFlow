@@ -249,16 +249,13 @@ export async function generateWords(
   return Array.from(wordsSet).join(" ");
 }
 
-// Fetches a random longer quote from an API
 async function getRandomQuote(): Promise<string> {
   try {
-    const response = await fetch(
-      "https://api.quotable.io/random?minLength=100"
-    );
+    const response = await fetch("https://zenquotes.io/api/random");
     if (!response.ok) throw new Error("Failed to fetch quote");
 
     const data = await response.json();
-    return `${data.content}`;
+    return `${data[0].q} - ${data[0].a}`;
   } catch (error) {
     console.error(error);
     return "Failed to load quote. Please try again.";
