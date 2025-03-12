@@ -12,9 +12,7 @@ const calculateNetWPM = (
   errors: number,
   timeInMinutes: number
 ) => {
-  // Errors should be divided by 5
   const netWPM = Math.max(0, Math.round(grossWPM - errors / 5 / timeInMinutes));
-  // wpmHistory.push(netWPM);
   return netWPM;
 };
 
@@ -23,11 +21,10 @@ const calculateAccuracy = (correct: number, total: number) => {
   return Math.round((correct / total) * 100);
 };
 
-const calculateAverageWPM = () => {
-  if (wpmHistory.length === 0) return 0;
-
-  const sum = wpmHistory.reduce((acc, wpm) => acc + wpm, 0);
-  return Math.round(sum / wpmHistory.length);
+const calculateAverageWPM = (history: number[]) => {
+  if (history.length === 0) return 0;
+  const sum = history.reduce((acc, wpm) => acc + wpm, 0);
+  return Math.round(sum / history.length);
 };
 
 export interface Results {
