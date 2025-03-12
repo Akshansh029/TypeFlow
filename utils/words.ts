@@ -252,7 +252,9 @@ export async function generateWords(
 // Fetches a random longer quote from an API
 async function getRandomQuote(): Promise<string> {
   try {
-    const response = await fetch("http://api.quotable.io/random?minLength=100");
+    const response = await fetch(
+      "https://api.quotable.io/random?minLength=100"
+    );
     if (!response.ok) throw new Error("Failed to fetch quote");
 
     const data = await response.json();
