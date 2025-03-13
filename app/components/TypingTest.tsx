@@ -72,7 +72,6 @@ export default function TypingTest() {
       setIsActive(true);
     }
 
-    // When a new character is added, update our counts.
     if (value.length > userInput.length) {
       const currentIndex = userInput.length;
       if (currentIndex < text.length) {
@@ -241,21 +240,20 @@ export default function TypingTest() {
       <div className="hidden md:block">
         <div className="relative max-w-full mx-auto p-8 gap-2 bg-[#131615] rounded-xl flex flex-col items-center justify-center">
           {/* {selectedMode === "time" && ( */}
-          <div className="flex justify-center items-center gap-4 sm:gap-12 w-full">
-            <h1 className="text-xl sm:text-3xl font-semibold text-green-400">
+          <div className="flex justify-center items-center gap-4 sm:gap-4 w-fit">
+            {/* <h1 className="text-lg sm:text-2xl font-semibold text-green-400">
               Timer:{" "}
-            </h1>
-            <div className="text-2xl sm:text-4xl font-mono text-gray-300">
+            </h1> */}
+            <div className="text-lg sm:text-2xl font-mono text-gray-100">
               {timer}
             </div>
           </div>
-          {/* )} */}
 
           <div className="transparent p-2 mx-auto rounded-lg min-h-[150px] sm:min-h-[200px] flex items-center justify-center w-full">
             <p className="text-lg sm:text-2xl md:text-3xl font-light text-center tracking-wide leading-relaxed max-w-[90vw] sm:max-w-6xl">
               {text.split("").map((char, i) => {
                 const userChar = userInput[i];
-                let color = "text-gray-500";
+                let color = "text-zinc-600";
                 if (userChar != null) {
                   color =
                     userChar === char ? "text-neutral-200" : "text-red-400";
