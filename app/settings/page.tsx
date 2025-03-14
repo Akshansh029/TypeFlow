@@ -3,18 +3,37 @@
 import { Button } from "@/components/ui/button";
 import { useMenuStore, type FontSize, type FontFamily } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import {
+  JetBrains_Mono,
+  Fira_Code,
+  Source_Code_Pro,
+  Ubuntu_Mono,
+} from "next/font/google";
 
 const fontSizes: { id: FontSize; label: string; class: string }[] = [
-  { id: "small", label: "Small", class: "text-base" },
-  { id: "medium", label: "Medium", class: "text-lg" },
-  { id: "large", label: "Large", class: "text-xl" },
-  { id: "xl", label: "Extra Large", class: "text-2xl" },
+  { id: "small", label: "Small", class: "text-xl" },
+  { id: "medium", label: "Medium", class: "text-2xl" },
+  { id: "large", label: "Large", class: "text-3xl" },
+  { id: "xl", label: "Extra Large", class: "text-4xl" },
 ];
 
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"] });
+const firaCode = Fira_Code({ subsets: ["latin"] });
+const sourceCodePro = Source_Code_Pro({ subsets: ["latin"] });
+const ubuntuMono = Ubuntu_Mono({ subsets: ["latin"], weight: "400" });
+
 const fontFamilies: { id: FontFamily; label: string; class: string }[] = [
-  { id: "mono", label: "Monospace", class: "font-mono" },
-  { id: "sans", label: "Sans Serif", class: "font-sans" },
-  { id: "serif", label: "Serif", class: "font-serif" },
+  { id: "mono", label: "System Mono", class: "font-mono" },
+  { id: "jetbrains-mono", label: "JetBrains", class: jetbrainsMono.className },
+  { id: "fira-code", label: "Fira Code", class: firaCode.className },
+  {
+    id: "source-code-pro",
+    label: "Source Code",
+    class: sourceCodePro.className,
+  },
+  { id: "ubuntu-mono", label: "Ubuntu Mono", class: ubuntuMono.className },
+  { id: "sans", label: "System Sans", class: "font-sans" },
+  { id: "serif", label: "System Serif", class: "font-serif" },
   { id: "roboto-mono", label: "Roboto Mono", class: "font-['Roboto_Mono']" },
 ];
 
@@ -61,6 +80,22 @@ export default function Settings() {
                 {font.label}
               </Button>
             ))}
+          </div>
+        </section>
+
+        {/* Preview Section */}
+        <section className="space-y-4">
+          <h2 className="text-xl font-medium text-zinc-400">preview</h2>
+          <div className="p-6 bg-zinc-800/50 rounded-lg">
+            <p
+              className={cn(
+                "text-white",
+                fontFamilies.find((f) => f.id === fontFamily)?.class,
+                fontSizes.find((s) => s.id === fontSize)?.class
+              )}
+            >
+              The quick brown fox jumps over the lazy dog 1234567890
+            </p>
           </div>
         </section>
       </div>

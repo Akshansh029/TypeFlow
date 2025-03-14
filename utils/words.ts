@@ -187,7 +187,7 @@ export async function generateWords(
     | "quote" = "medium"
 ): Promise<string> {
   if (mode === "quote") {
-    return await getRandomQuote(); // Fetch a random quote
+    return await getRandomQuote();
   }
 
   const wordsSet = new Set<string>();

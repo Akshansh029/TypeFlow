@@ -1,11 +1,45 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import {
+  Poppins,
+  JetBrains_Mono,
+  Fira_Code,
+  Source_Code_Pro,
+  Ubuntu_Mono,
+  Roboto_Mono,
+} from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
+import { cn } from "../lib/utils";
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+});
+
+const firaCode = Fira_Code({
+  subsets: ["latin"],
+  variable: "--font-fira",
+});
+
+const sourceCodePro = Source_Code_Pro({
+  subsets: ["latin"],
+  variable: "--font-source",
+});
+
+const ubuntuMono = Ubuntu_Mono({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-ubuntu",
+});
+
+const robotoMono = Roboto_Mono({
+  subsets: ["latin"],
+  variable: "--font-roboto",
 });
 
 export const metadata: Metadata = {
@@ -20,7 +54,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={cn(
+        jetbrainsMono.variable,
+        firaCode.variable,
+        sourceCodePro.variable,
+        ubuntuMono.variable,
+        robotoMono.variable
+      )}
+    >
       <body className={`${poppins.className} bg-white/5`}>
         <main className="min-h-screen">
           <Navbar />

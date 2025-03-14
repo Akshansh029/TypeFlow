@@ -234,7 +234,7 @@ export default function TypingTest() {
     restart();
   }, [selectedTime, restart]);
 
-  console.log(fontSize);
+  console.log(fontSize, fontFamily);
 
   return (
     <>
@@ -252,7 +252,6 @@ export default function TypingTest() {
       {/* Desktop App */}
       <div className="hidden md:block">
         <div className="relative max-w-full mx-auto p-8 gap-2 bg-primary rounded-xl flex flex-col items-center justify-center">
-          {/* {selectedMode === "time" && ( */}
           <div className="flex justify-around items-center sm:gap-4 w-40">
             <div className="text-lg sm:text-2xl font-mono text-gray-100">
               {timer}s
@@ -277,12 +276,13 @@ export default function TypingTest() {
             <p
               className={cn(
                 "font-light text-center tracking-wide leading-relaxed max-w-[90vw] sm:max-w-6xl",
-                `font-${fontFamily}`,
+                // `font-${fontFamily}`,
                 fontSize === "small" && "text-xl",
                 fontSize === "medium" && "text-2xl",
                 fontSize === "large" && "text-3xl",
                 fontSize === "xl" && "text-4xl"
               )}
+              style={{ fontFamily: `"${fontFamily}", monospace` }} // Ensure fallback
             >
               {text.split("").map((char, i) => {
                 const userChar = userInput[i];

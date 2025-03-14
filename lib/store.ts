@@ -11,7 +11,15 @@ export type Mode =
   | "quote";
 
 export type FontSize = "small" | "medium" | "large" | "xl";
-export type FontFamily = "mono" | "sans" | "serif" | "roboto-mono";
+export type FontFamily =
+  | "mono"
+  | "sans"
+  | "serif"
+  | "roboto-mono"
+  | "fira-code"
+  | "jetbrains-mono"
+  | "source-code-pro"
+  | "ubuntu-mono";
 
 interface TestStore {
   selectedMode: Mode;
