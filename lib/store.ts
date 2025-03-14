@@ -30,6 +30,9 @@ interface TestStore {
   fontFamily: FontFamily;
   setFontSize: (size: FontSize) => void;
   setFontFamily: (font: FontFamily) => void;
+  isSoundEnabled: boolean;
+  enableSound: () => void;
+  disableSound: () => void;
 }
 
 export const useMenuStore = create<TestStore>((set) => ({
@@ -41,4 +44,8 @@ export const useMenuStore = create<TestStore>((set) => ({
   fontFamily: "roboto-mono",
   setFontSize: (size) => set({ fontSize: size }),
   setFontFamily: (font) => set({ fontFamily: font }),
+  // isSoundEnabled: JSON.parse(localStorage.getItem("isSoundEnabled") ?? "true"),
+  isSoundEnabled: true,
+  enableSound: () => set({ isSoundEnabled: true }),
+  disableSound: () => set({ isSoundEnabled: false }),
 }));

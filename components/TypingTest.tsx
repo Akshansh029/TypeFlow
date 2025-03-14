@@ -15,6 +15,7 @@ import { RotateCw } from "lucide-react";
 import { useMenuStore } from "@/lib/store";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+// import useTypingSound from "@/hooks/useTypingSound";
 
 interface WPMDataPoint {
   time: number;
@@ -23,7 +24,8 @@ interface WPMDataPoint {
 
 export default function TypingTest() {
   const [wpmHistory, setWpmHistory] = useState<number[]>([]);
-  const { selectedMode, selectedTime, fontSize, fontFamily } = useMenuStore();
+  const { selectedMode, selectedTime, fontSize, fontFamily, isSoundEnabled } =
+    useMenuStore();
   const [text, setText] = useState("");
   const [userInput, setUserInput] = useState("");
   const [timer, setTimer] = useState<number>(selectedTime);
@@ -32,6 +34,7 @@ export default function TypingTest() {
   const [wpmData, setWpmData] = useState<WPMDataPoint[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const [currentWPM, setCurrentWPM] = useState<number>(0);
+  // const typingSound = useTypingSound("/sounds/typewriter.wav", isSoundEnabled);
 
   // Using refs to store counts so they always reflect the latest values.
   const totalTypedCharsRef = useRef(0);
@@ -98,6 +101,10 @@ export default function TypingTest() {
         setCurrentWPM(Math.round(grossWPM));
       }
     }
+
+    // if (value.length > userInput.length) {
+    //   typingSound(); // Play typing sound when user types
+    // }
 
     setUserInput(value);
   };
@@ -233,8 +240,6 @@ export default function TypingTest() {
   useEffect(() => {
     restart();
   }, [selectedTime, restart]);
-
-  console.log(fontSize, fontFamily);
 
   return (
     <>

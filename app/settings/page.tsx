@@ -38,11 +38,39 @@ const fontFamilies: { id: FontFamily; label: string; class: string }[] = [
 ];
 
 export default function Settings() {
-  const { fontSize, setFontSize, fontFamily, setFontFamily } = useMenuStore();
+  const {
+    fontSize,
+    setFontSize,
+    fontFamily,
+    setFontFamily,
+    enableSound,
+    disableSound,
+  } = useMenuStore();
 
   return (
     <main className="min-h-[calc(100vh-84px)] bg-primary p-8">
       <div className="max-w-2xl mx-auto space-y-6">
+        {/* Sound option Section */}
+        <section className="space-y-4 flex items-center justify-between">
+          <h2 className="text-xl font-medium text-zinc-400">typing sound</h2>
+          <div className="flex gap-4">
+            <Button
+              className="h-8 bg-zinc-800 text-white"
+              variant={"ghost"}
+              onClick={enableSound}
+            >
+              On
+            </Button>
+            <Button
+              className="h-8 bg-zinc-800 text-white"
+              variant="ghost"
+              onClick={disableSound}
+            >
+              Off
+            </Button>
+          </div>
+        </section>
+
         {/* Font Size Section */}
         <section className="space-y-4">
           <h2 className="text-xl font-medium text-zinc-400">font size</h2>
