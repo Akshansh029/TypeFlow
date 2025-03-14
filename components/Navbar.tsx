@@ -34,8 +34,8 @@ export default function Navbar() {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center gap-2">
-              <Keyboard className="h-7 w-7 text-green-400 transition-colors" />
-              <span className="text-2xl font-bold text-green-400">
+              <Keyboard className="h-7 w-7 text-accent-primary transition-colors" />
+              <span className="text-2xl font-bold text-accent-primary">
                 TypeFlow
               </span>
             </Link>
@@ -90,10 +90,10 @@ export default function Navbar() {
               <Link
                 key={href}
                 href={href}
-                className="flex items-center gap-2 py-2 px-3 hover:bg-accent rounded-md"
+                className="flex items-center gap-4 py-2 px-3"
               >
-                <Icon className="h-8 w-8 text-gray-300 hover:text-black transition-colors" />
-                <span>{label}</span>
+                <Icon className="h-8 w-8 text-gray-300 transition-colors" />
+                <span className="text-zinc-300">{label}</span>
               </Link>
             ))}
           </div>

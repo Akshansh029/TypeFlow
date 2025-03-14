@@ -80,6 +80,16 @@ export default function TypingTest() {
       startTimeRef.current = Date.now();
     }
 
+    if (
+      e.nativeEvent instanceof InputEvent &&
+      (e.nativeEvent as unknown as { inputType: string }).inputType ===
+        "insertLineBreak"
+    ) {
+      setIsActive(false);
+      restart();
+      return;
+    }
+
     if (value.length > userInput.length) {
       const currentIndex = userInput.length;
       if (currentIndex < text.length) {
@@ -246,7 +256,7 @@ export default function TypingTest() {
     <>
       {/* Mobile Warning */}
       <div className="md:hidden flex flex-col items-center justify-center min-h-[calc(100vh-84px)] p-4 bg-primary text-center">
-        <h2 className="text-2xl text-green-400 font-semibold mb-4">
+        <h2 className="text-2xl text-accent-primary font-semibold mb-4">
           ⚠️ Desktop Only
         </h2>
         <p className="text-gray-300">
@@ -256,107 +266,137 @@ export default function TypingTest() {
       </div>
 
       {/* Desktop App */}
+
       <div className="hidden md:block">
-        <div className="relative max-w-full mx-auto p-8 gap-2 bg-primary rounded-xl flex flex-col items-center justify-center">
-          <div className="flex justify-around items-center sm:gap-4 w-40">
-            <div className="text-lg sm:text-2xl font-mono text-gray-100">
-              {timer}s
-            </div>
-            {isActive && (
-              <div
-                className="text-lg sm:text-2xl font-mono text-gray-100 text-center"
-                style={{ minWidth: "3ch" }}
-              >
-                {currentWPM}
+        {!results && (
+          <div className="relative max-w-full mx-auto p-8 gap-4 bg-primary rounded-xl flex flex-col items-center justify-center">
+            <div className="flex justify-around items-center sm:gap-4 w-40">
+              <div className="text-lg sm:text-2xl font-mono text-gray-100">
+                {timer}s
               </div>
-            )}
-          </div>
-
-          <motion.div
-            key={text}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="transparent p-2 mx-auto rounded-lg min-h-[150px] sm:min-h-[200px] flex items-center justify-center w-full"
-          >
-            <p
-              className={cn(
-                "font-light text-center tracking-wide leading-relaxed max-w-[90vw] sm:max-w-6xl",
-                // `font-${fontFamily}`,
-                fontSize === "small" && "text-xl",
-                fontSize === "medium" && "text-2xl",
-                fontSize === "large" && "text-3xl",
-                fontSize === "xl" && "text-4xl"
+              {isActive && (
+                <div
+                  className="text-lg sm:text-2xl font-mono text-gray-100 text-center"
+                  style={{ minWidth: "3ch" }}
+                >
+                  {currentWPM}
+                </div>
               )}
-              style={{ fontFamily: `"${fontFamily}", monospace` }} // Ensure fallback
-            >
-              {text.split("").map((char, i) => {
-                const userChar = userInput[i];
-                let color = "text-zinc-600";
-                if (userChar != null) {
-                  color =
-                    userChar === char ? "text-neutral-200" : "text-red-400";
-                }
-                return (
-                  <span key={i} className={color}>
-                    {char}
-                  </span>
-                );
-              })}
-            </p>
-          </motion.div>
+            </div>
 
-          {results ? (
-            <div className="flex flex-col items-center gap-6 sm:gap-12 w-full">
-              <div className="w-full flex flex-col lg:flex-row items-center justify-center gap-6 sm:gap-12">
-                <div className="text-xl sm:text-2xl space-y-2">
-                  <div className="flex flex-col items-start gap-1">
-                    <p className="text-gray-500 text-base sm:text-xl">
-                      avg wpm
-                    </p>
-                    <span className="text-green-400 text-3xl sm:text-5xl">
-                      {results.averageWPM}
+            <motion.div
+              key={text}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="transparent p-2 mx-auto rounded-lg min-h-[150px] sm:min-h-[200px] flex items-center justify-center w-full"
+            >
+              <p
+                className={cn(
+                  "font-light text-center tracking-wide leading-relaxed max-w-[90vw] sm:max-w-6xl",
+                  // `font-${fontFamily}`,
+                  fontSize === "small" && "text-xl",
+                  fontSize === "medium" && "text-2xl",
+                  fontSize === "large" && "text-3xl",
+                  fontSize === "xl" && "text-4xl"
+                )}
+                style={{ fontFamily: `"${fontFamily}", monospace` }} // Ensure fallback
+              >
+                {text.split("").map((char, i) => {
+                  const userChar = userInput[i];
+                  let color = "text-zinc-600";
+                  if (userChar != null) {
+                    color =
+                      userChar === char ? "text-neutral-200" : "text-red-400";
+                  }
+                  return (
+                    <span key={i} className={color}>
+                      {char}
                     </span>
-                  </div>
-                  <div className="flex flex-col items-start gap-1">
-                    <p className="text-gray-500 text-base sm:text-xl">raw</p>
-                    <span className="text-green-400 text-3xl sm:text-5xl">
-                      {results.grossWPM}
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-start gap-1">
-                    <p className="text-gray-500 text-base sm:text-xl">acc</p>
-                    <span className="text-green-400 text-3xl sm:text-5xl">
-                      {results.accuracy}%
-                    </span>
-                  </div>
+                  );
+                })}
+              </p>
+            </motion.div>
+          </div>
+        )}
+
+        {!results && (
+          <div className="flex flex-col items-center gap-2 mt-8">
+            <span className="text-sm text-zinc-600">
+              <kbd className="text-primary bg-zinc-500 py-1 px-2 rounded">
+                enter
+              </kbd>{" "}
+              - restart test
+            </span>
+          </div>
+        )}
+
+        {results ? (
+          <div className="flex flex-col items-center gap-6 sm:gap-12 w-full">
+            <div className="w-full flex flex-col lg:flex-row items-center justify-center gap-6 sm:gap-12">
+              <div className="text-xl sm:text-2xl space-y-2">
+                <div className="flex flex-col items-start gap-1">
+                  <p className="text-gray-500 text-base sm:text-xl">avg wpm</p>
+                  <span className="text-accent-primary text-3xl sm:text-5xl">
+                    {results.averageWPM}
+                  </span>
                 </div>
-                <div className="w-full sm:w-auto">
-                  <PerformanceGraph results={results} wpmData={wpmData} />
+                <div className="flex flex-col items-start gap-1">
+                  <p className="text-gray-500 text-base sm:text-xl">raw</p>
+                  <span className="text-accent-primary text-3xl sm:text-5xl">
+                    {results.grossWPM}
+                  </span>
+                </div>
+                <div className="flex flex-col items-start gap-1">
+                  <p className="text-gray-500 text-base sm:text-xl">acc</p>
+                  <span className="text-accent-primary text-3xl sm:text-5xl">
+                    {results.accuracy}%
+                  </span>
                 </div>
               </div>
-              <Button
-                onClick={restart}
-                variant={"outline"}
-                className="cursor-pointer text-sm sm:text-base"
-              >
-                <RotateCw className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-                Restart
-              </Button>
+              <div className="w-full sm:w-auto">
+                <PerformanceGraph results={results} wpmData={wpmData} />
+              </div>
             </div>
-          ) : (
-            <input
-              type="text"
-              ref={inputRef}
-              value={userInput}
-              onChange={handleChange}
-              onBlur={handleInputBlur}
-              autoFocus={isActive}
-              className="absolute opacity-0 text-center"
-              aria-label="Typing input"
-            />
-          )}
-        </div>
+            <Button
+              onClick={restart}
+              variant={"outline"}
+              className="cursor-pointer text-sm sm:text-base"
+            >
+              <RotateCw className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+              Restart
+            </Button>
+            <div className="flex flex-col items-center gap-2 mt-4">
+              <span className="text-sm text-zinc-600">
+                <kbd className="text-primary bg-zinc-500 py-1 px-2 rounded">
+                  tab
+                </kbd>
+                {" + "}
+                <kbd className="text-primary bg-zinc-500 py-1 px-2 rounded">
+                  enter
+                </kbd>{" "}
+                - restart test
+              </span>
+            </div>
+          </div>
+        ) : (
+          <input
+            type="text"
+            ref={inputRef}
+            value={userInput}
+            onChange={handleChange}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setIsActive(false);
+                restart();
+              }
+            }}
+            onBlur={handleInputBlur}
+            autoFocus={isActive}
+            className="absolute opacity-0 text-center"
+            aria-label="Typing input"
+          />
+        )}
       </div>
     </>
   );

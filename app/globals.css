@@ -44,6 +44,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --background-primary: #131615;
+  --accent-primary: #05df72;
 }
 
 .dark {
@@ -131,4 +132,12 @@
 
 .bg-primary {
   background-color: var(--background-primary);
+}
+
+.text-primary {
+  color: var(--background-primary);
+}
+
+.text-accent-primary {
+  color: var(--accent-primary);
 }

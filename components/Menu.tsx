@@ -50,13 +50,16 @@ export function MenuBar() {
               variant="ghost"
               size="sm"
               className={cn(
-                "text-gray-300 hover:text-green-400 hover:bg-zinc-800 gap-1 cursor-pointer",
-                isSelected && "text-green-400"
+                "text-gray-300 hover:text-accent-primary hover:bg-zinc-800 gap-1 cursor-pointer",
+                isSelected && "text-accent-primary"
               )}
               onClick={() => setSelectedMode(item.id as Mode)}
             >
               <item.icon
-                className={cn("mr-2 h-4 w-4", isSelected && "text-green-400")}
+                className={cn(
+                  "mr-2 h-4 w-4",
+                  isSelected && "text-accent-primary"
+                )}
               />
               {item.label}
             </Button>
@@ -73,8 +76,8 @@ export function MenuBar() {
               variant="ghost"
               size="sm"
               className={cn(
-                "text-gray-300 hover:text-green-400 hover:bg-gray-700 px-2 cursor-pointer",
-                isSelectedTime && "text-green-400"
+                "text-gray-300 hover:text-accent-primary hover:bg-gray-700 px-2 cursor-pointer",
+                isSelectedTime && "text-accent-primary"
               )}
               onClick={() => setSelectedTime(size.id)}
             >
