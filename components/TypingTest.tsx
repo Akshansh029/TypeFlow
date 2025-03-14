@@ -1,19 +1,20 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { generateWords } from "../../utils/words";
+import { generateWords } from "../utils/words";
 import {
   calculateGrossWPM,
   calculateNetWPM,
   calculateAccuracy,
   calculateAverageWPM,
   Results,
-} from "../../utils/calculations";
+} from "../utils/calculations";
 import PerformanceGraph from "./PerformanceGraph";
 import { Button } from "@/components/ui/button";
 import { RotateCw } from "lucide-react";
 import { useMenuStore } from "@/lib/store";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 interface WPMDataPoint {
   time: number;
@@ -22,7 +23,7 @@ interface WPMDataPoint {
 
 export default function TypingTest() {
   const [wpmHistory, setWpmHistory] = useState<number[]>([]);
-  const { selectedMode, selectedTime } = useMenuStore();
+  const { selectedMode, selectedTime, fontSize, fontFamily } = useMenuStore();
   const [text, setText] = useState("");
   const [userInput, setUserInput] = useState("");
   const [timer, setTimer] = useState<number>(selectedTime);
@@ -233,10 +234,12 @@ export default function TypingTest() {
     restart();
   }, [selectedTime, restart]);
 
+  console.log(fontSize);
+
   return (
     <>
       {/* Mobile Warning */}
-      <div className="md:hidden flex flex-col items-center justify-center min-h-screen p-4 bg-[#131615] text-center">
+      <div className="md:hidden flex flex-col items-center justify-center min-h-[calc(100vh-84px)] p-4 bg-primary text-center">
         <h2 className="text-2xl text-green-400 font-semibold mb-4">
           ⚠️ Desktop Only
         </h2>
@@ -248,7 +251,7 @@ export default function TypingTest() {
 
       {/* Desktop App */}
       <div className="hidden md:block">
-        <div className="relative max-w-full mx-auto p-8 gap-2 bg-[#131615] rounded-xl flex flex-col items-center justify-center">
+        <div className="relative max-w-full mx-auto p-8 gap-2 bg-primary rounded-xl flex flex-col items-center justify-center">
           {/* {selectedMode === "time" && ( */}
           <div className="flex justify-around items-center sm:gap-4 w-40">
             <div className="text-lg sm:text-2xl font-mono text-gray-100">
@@ -257,22 +260,30 @@ export default function TypingTest() {
             {isActive && (
               <div
                 className="text-lg sm:text-2xl font-mono text-gray-100 text-center"
-                style={{ minWidth: "3ch" }} // Reserves space for 3 characters
+                style={{ minWidth: "3ch" }}
               >
-                {/* {isActive ? currentWPM : "--"} */}
                 {currentWPM}
               </div>
             )}
           </div>
 
           <motion.div
-            key={text} // Ensures animation triggers on text change
+            key={text}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="transparent p-2 mx-auto rounded-lg min-h-[150px] sm:min-h-[200px] flex items-center justify-center w-full"
           >
-            <p className="text-lg sm:text-2xl md:text-3xl font-light text-center tracking-wide leading-relaxed max-w-[90vw] sm:max-w-6xl">
+            <p
+              className={cn(
+                "font-light text-center tracking-wide leading-relaxed max-w-[90vw] sm:max-w-6xl",
+                `font-${fontFamily}`,
+                fontSize === "small" && "text-xl",
+                fontSize === "medium" && "text-2xl",
+                fontSize === "large" && "text-3xl",
+                fontSize === "xl" && "text-4xl"
+              )}
+            >
               {text.split("").map((char, i) => {
                 const userChar = userInput[i];
                 let color = "text-zinc-600";

@@ -28,7 +28,7 @@ export default function Navbar() {
   const toggleMenu = useCallback(() => setIsMenuOpen((prev) => !prev), []);
 
   return (
-    <nav className="w-full bg-[#131615]">
+    <nav className="w-full bg-primary">
       <div className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -53,9 +53,9 @@ export default function Navbar() {
                   size="icon"
                   title={label}
                   aria-label={label}
-                  className="text-zinc-600 hover:text-white hover:bg-transparent transition-colors cursor-pointer"
+                  className="text-zinc-600 hover:text-white hover:bg-transparent cursor-pointer"
                 >
-                  <Icon className="h-8 w-8 transition-colors" />
+                  <Icon className="h-8 w-8" />
                 </Button>
               </Link>
             ))}
