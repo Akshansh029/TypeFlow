@@ -6,7 +6,6 @@ import {
   calculateGrossWPM,
   calculateNetWPM,
   calculateAccuracy,
-  calculateAverageWPM,
   Results,
 } from "../utils/calculations";
 import PerformanceGraph from "./PerformanceGraph";
@@ -23,7 +22,6 @@ interface WPMDataPoint {
 }
 
 export default function TypingTest() {
-  const [wpmHistory, setWpmHistory] = useState<number[]>([]);
   const { selectedMode, selectedTime, fontSize, fontFamily } = useMenuStore();
   // const { selectedMode, selectedTime, fontSize, fontFamily, isSoundEnabled } =
   //   useMenuStore();
@@ -204,20 +202,12 @@ export default function TypingTest() {
       totalTypedCharsRef.current
     );
 
-    setWpmHistory((prev) => [...prev, netWPM]); // Persist history in state
     setResults({
       grossWPM,
       netWPM,
       accuracy,
-      averageWPM: calculateAverageWPM([...wpmHistory, netWPM]),
     });
   };
-
-  useEffect(() => {
-    if (results) {
-      setWpmHistory((prev) => [...prev, results.netWPM]);
-    }
-  }, [results]);
 
   // Restart test
   const restart = useCallback(() => {
@@ -336,9 +326,9 @@ export default function TypingTest() {
             <div className="w-full flex flex-col lg:flex-row items-center justify-center gap-6 sm:gap-12">
               <div className="text-xl sm:text-2xl space-y-2">
                 <div className="flex flex-col items-start gap-1">
-                  <p className="text-gray-500 text-base sm:text-xl">avg wpm</p>
+                  <p className="text-gray-500 text-base sm:text-xl">wpm</p>
                   <span className="text-accent-primary text-3xl sm:text-5xl">
-                    {results.averageWPM}
+                    {results.netWPM}
                   </span>
                 </div>
                 <div className="flex flex-col items-start gap-1">
@@ -366,7 +356,7 @@ export default function TypingTest() {
               <RotateCw className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
               Restart
             </Button>
-            <div className="flex flex-col items-center gap-2 mt-4">
+            <div className="flex flex-col items-center gap-2">
               <span className="text-sm text-zinc-600">
                 <kbd className="text-primary bg-zinc-500 py-1 px-2 rounded">
                   tab

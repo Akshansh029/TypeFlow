@@ -21,23 +21,10 @@ const calculateAccuracy = (correct: number, total: number) => {
   return Math.round((correct / total) * 100);
 };
 
-const calculateAverageWPM = (history: number[]) => {
-  if (history.length === 0) return 0;
-  const sum = history.reduce((acc, wpm) => acc + wpm, 0);
-  return Math.round(sum / history.length);
-};
-
 export interface Results {
   grossWPM: number;
   netWPM: number;
   accuracy: number;
-  averageWPM: number;
 }
 
-export {
-  calculateGrossWPM,
-  calculateNetWPM,
-  calculateAccuracy,
-  calculateAverageWPM,
-  wpmHistory,
-};
+export { calculateGrossWPM, calculateNetWPM, calculateAccuracy, wpmHistory };
