@@ -30,11 +30,13 @@ export default function TypingTest() {
   const [results, setResults] = useState<Results | null>(null);
   const [wpmData, setWpmData] = useState<WPMDataPoint[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [currentWPM, setCurrentWPM] = useState<number>(0);
 
   // Using refs to store counts so they always reflect the latest values.
   const totalTypedCharsRef = useRef(0);
   const totalCorrectCharsRef = useRef(0);
   const errorCountRef = useRef(0);
+  const startTimeRef = useRef<number | null>(null); // Track test start time
 
   // On mount, generate initial words and focus the hidden input.
   useEffect(() => {
@@ -60,7 +62,6 @@ export default function TypingTest() {
   }, [selectedMode]);
 
   const handleInputBlur = () => {
-    // Hidden input stays focused.
     inputRef.current?.focus();
   };
 
@@ -71,6 +72,7 @@ export default function TypingTest() {
     // Start the timer on the first key press.
     if (!isActive && value.length === 1) {
       setIsActive(true);
+      startTimeRef.current = Date.now();
     }
 
     if (value.length > userInput.length) {
@@ -84,6 +86,15 @@ export default function TypingTest() {
         } else {
           errorCountRef.current += 1;
         }
+      }
+    }
+
+    // Real-time WPM
+    if (startTimeRef.current) {
+      const elapsedTime = (Date.now() - startTimeRef.current) / 1000; // Convert ms to seconds
+      if (elapsedTime > 0) {
+        const grossWPM = (totalTypedCharsRef.current / 5) * (60 / elapsedTime);
+        setCurrentWPM(Math.round(grossWPM));
       }
     }
 
@@ -126,10 +137,8 @@ export default function TypingTest() {
 
     const interval = setInterval(() => {
       setTimer((prevTime) => {
-        // Calculate elapsed time in seconds.
         const elapsedTime = selectedTime - prevTime + 1;
 
-        // Calculate current gross and net WPM.
         const currentGrossWPM = calculateGrossWPM(
           totalTypedCharsRef.current,
           elapsedTime
@@ -211,6 +220,8 @@ export default function TypingTest() {
     totalCorrectCharsRef.current = 0;
     errorCountRef.current = 0;
     setWpmData([]);
+    setCurrentWPM(0);
+    startTimeRef.current = null;
 
     setTimeout(() => {
       inputRef.current?.focus();
@@ -239,13 +250,19 @@ export default function TypingTest() {
       <div className="hidden md:block">
         <div className="relative max-w-full mx-auto p-8 gap-2 bg-[#131615] rounded-xl flex flex-col items-center justify-center">
           {/* {selectedMode === "time" && ( */}
-          <div className="flex justify-center items-center gap-4 sm:gap-4 w-fit">
-            {/* <h1 className="text-lg sm:text-2xl font-semibold text-green-400">
-              Timer:{" "}
-            </h1> */}
+          <div className="flex justify-around items-center sm:gap-4 w-40">
             <div className="text-lg sm:text-2xl font-mono text-gray-100">
-              {timer}
+              {timer}s
             </div>
+            {isActive && (
+              <div
+                className="text-lg sm:text-2xl font-mono text-gray-100 text-center"
+                style={{ minWidth: "3ch" }} // Reserves space for 3 characters
+              >
+                {/* {isActive ? currentWPM : "--"} */}
+                {currentWPM}
+              </div>
+            )}
           </div>
 
           <motion.div

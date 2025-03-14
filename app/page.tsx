@@ -9,14 +9,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="min-h-screen py-8 flex flex-col items-center gap-4 bg-[#131615]">
-        <header className="text-center mb-4">
+        {/* <header className="text-center mb-4">
           <div className="flex items-center justify-center gap-1">
             <h1 className="text-4xl font-bold mb-2 text-green-400">TypeFlow</h1>
           </div>
           <p className="text-gray-600 dark:text-gray-400">
             Test your typing speed and improve your skills
           </p>
-        </header>
+        </header> */}
 
         <MenuBar />
 

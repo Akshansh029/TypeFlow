@@ -50,7 +50,7 @@ export function MenuBar() {
               variant="ghost"
               size="sm"
               className={cn(
-                "text-gray-300 hover:text-white hover:bg-gray-700 gap-1",
+                "text-gray-300 hover:text-green-400 hover:bg-zinc-800 gap-1 cursor-pointer",
                 isSelected && "text-green-400"
               )}
               onClick={() => setSelectedMode(item.id as Mode)}
@@ -73,7 +73,7 @@ export function MenuBar() {
               variant="ghost"
               size="sm"
               className={cn(
-                "text-gray-300 hover:text-white hover:bg-gray-700 px-2",
+                "text-gray-300 hover:text-green-400 hover:bg-gray-700 px-2 cursor-pointer",
                 isSelectedTime && "text-green-400"
               )}
               onClick={() => setSelectedTime(size.id)}
