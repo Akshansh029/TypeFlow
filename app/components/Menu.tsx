@@ -12,7 +12,7 @@ type MenuItem = {
   label: string;
 };
 
-type SizeOption = {
+type TimeOption = {
   id: number;
   icon: ElementType;
   label: string;
@@ -27,7 +27,7 @@ const menuItems: MenuItem[] = [
   { id: "quote", icon: Quote, label: "quote" },
 ];
 
-const sizeOptions: SizeOption[] = [
+const timeOptions: TimeOption[] = [
   { id: 10, icon: Clock, label: "10" },
   { id: 20, icon: Clock, label: "20" },
   { id: 30, icon: Clock, label: "30" },
@@ -65,7 +65,7 @@ export function MenuBar() {
       </div>
       <div className="flex flex-wrap md:flex-nowrap items-center justify-center gap-1 w-full">
         <p className="text-gray-300">Time :</p>
-        {sizeOptions.map((size) => {
+        {timeOptions.map((size) => {
           const isSelectedTime = selectedTime === size.id;
           return (
             <Button

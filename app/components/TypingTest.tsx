@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { generateWords } from "../../utils/words";
 import {
   calculateGrossWPM,
@@ -13,6 +13,7 @@ import PerformanceGraph from "./PerformanceGraph";
 import { Button } from "@/components/ui/button";
 import { RotateCw } from "lucide-react";
 import { useMenuStore } from "@/lib/store";
+import { motion } from "framer-motion";
 
 interface WPMDataPoint {
   time: number;
@@ -191,37 +192,35 @@ export default function TypingTest() {
   }, [results]);
 
   // Restart test
-  const restart = () => {
+  const restart = useCallback(() => {
     if (selectedMode === "hard") {
       generateWords(20, selectedMode)
         .then((words) => setText(words))
         .catch(() => setText(""));
-
-      setUserInput("");
-      setIsActive(false);
-
-      inputRef.current?.focus();
     } else {
       generateWords(40, selectedMode)
         .then((words) => setText(words))
         .catch(() => setText(""));
-
-      setUserInput("");
-      setIsActive(false);
     }
+
     setUserInput("");
-    setTimer(selectedTime);
-    setResults(null);
     setIsActive(false);
+    setResults(null);
+    setTimer(selectedTime);
     totalTypedCharsRef.current = 0;
     totalCorrectCharsRef.current = 0;
     errorCountRef.current = 0;
     setWpmData([]);
-    wpmHistory.length = 0;
+
     setTimeout(() => {
       inputRef.current?.focus();
     }, 50);
-  };
+  }, [selectedMode, selectedTime]);
+
+  // Add this useEffect to listen for time changes and restart test
+  useEffect(() => {
+    restart();
+  }, [selectedTime, restart]);
 
   return (
     <>
@@ -249,7 +248,13 @@ export default function TypingTest() {
             </div>
           </div>
 
-          <div className="transparent p-2 mx-auto rounded-lg min-h-[150px] sm:min-h-[200px] flex items-center justify-center w-full">
+          <motion.div
+            key={text} // Ensures animation triggers on text change
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="transparent p-2 mx-auto rounded-lg min-h-[150px] sm:min-h-[200px] flex items-center justify-center w-full"
+          >
             <p className="text-lg sm:text-2xl md:text-3xl font-light text-center tracking-wide leading-relaxed max-w-[90vw] sm:max-w-6xl">
               {text.split("").map((char, i) => {
                 const userChar = userInput[i];
@@ -265,7 +270,7 @@ export default function TypingTest() {
                 );
               })}
             </p>
-          </div>
+          </motion.div>
 
           {results ? (
             <div className="flex flex-col items-center gap-6 sm:gap-12 w-full">
