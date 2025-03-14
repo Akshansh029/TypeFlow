@@ -19,7 +19,7 @@ const NAV_ITEMS = [
   { href: "/about", label: "About", icon: Info },
   { href: "/settings", label: "Settings", icon: Settings },
   { href: "/notifications", label: "Notifications", icon: Bell },
-  { href: "/profile", label: "Profile", icon: User },
+  { href: "/login", label: "Profile", icon: User },
 ];
 
 export default function Navbar() {
