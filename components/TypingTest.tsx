@@ -24,8 +24,9 @@ interface WPMDataPoint {
 
 export default function TypingTest() {
   const [wpmHistory, setWpmHistory] = useState<number[]>([]);
-  const { selectedMode, selectedTime, fontSize, fontFamily, isSoundEnabled } =
-    useMenuStore();
+  const { selectedMode, selectedTime, fontSize, fontFamily } = useMenuStore();
+  // const { selectedMode, selectedTime, fontSize, fontFamily, isSoundEnabled } =
+  //   useMenuStore();
   const [text, setText] = useState("");
   const [userInput, setUserInput] = useState("");
   const [timer, setTimer] = useState<number>(selectedTime);
