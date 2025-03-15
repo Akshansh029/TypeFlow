@@ -61,12 +61,14 @@ export default function AuthPage() {
             <Button
               variant="outline"
               className="flex-1 bg-[#1e1e26] py-2 text-gray-300 hover:bg-neutral-200 hover:text-gray-800"
+              aria-label="Google"
             >
               <span className="text-lg font-medium">G</span>
             </Button>
             <Button
               variant="outline"
               className="flex-1 bg-[#1e1e26] py-2 text-gray-300 hover:bg-neutral-200 hover:text-gray-800"
+              aria-label="Github"
             >
               <Github className="h-4 w-4 font-semibold" />
             </Button>

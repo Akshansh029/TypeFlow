@@ -1,12 +1,18 @@
+"use client";
 import React from "react";
-import { options } from "../api/auth/[...nextauth]/options";
-import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-const Leaderboard = async () => {
-  const session = await getServerSession(options);
-  if (!session) {
-    redirect("/");
-  }
+import { useSession } from "next-auth/react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+const Leaderboard = () => {
+  // using client session to get the user's session
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect("/api/auth/signin?callbackUrl=/client");
+    },
+  });
+
   return (
     <div className="min-h-[calc(100vh-84px)] bg-primary p-8">
       <div className="max-w-2xl mx-auto space-y-6">
@@ -17,6 +23,9 @@ const Leaderboard = async () => {
               <h2 className="text-lg font-medium text-white">
                 {session.user?.name}
               </h2>
+              <Button variant="secondary" onClick={() => toast("Hello")}>
+                Sonner
+              </Button>
             </div>
           </div>
         )}
