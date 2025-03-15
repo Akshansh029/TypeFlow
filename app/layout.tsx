@@ -10,6 +10,8 @@ import {
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import { cn } from "../lib/utils";
+import { Toaster } from "sonner";
+import SessionProviderWrapper from "@/components/SessionProviderWrapper"; // ✅ Import SessionProviderWrapper
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
@@ -65,10 +67,13 @@ export default function RootLayout({
       )}
     >
       <body className={`${poppins.className} bg-white/5`}>
-        <main className="min-h-screen">
-          <Navbar />
-          {children}
-        </main>
+        <SessionProviderWrapper>
+          <main className="min-h-screen">
+            <Navbar />
+            {children}
+          </main>
+          <Toaster />
+        </SessionProviderWrapper>
       </body>
     </html>
   );
