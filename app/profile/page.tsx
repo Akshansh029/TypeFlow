@@ -193,7 +193,7 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 
-export default function AuthPage({ pagetype }: { pagetype: string }) {
+export default function AuthPage() {
   // Get user session
   const { data: session, status } = useSession();
 
@@ -230,10 +230,6 @@ export default function AuthPage({ pagetype }: { pagetype: string }) {
             Hello, {user.name ?? "User"}!
           </h1>
           <p className="text-gray-600 text-sm">{user.email}</p>
-
-          {pagetype && (
-            <p className="text-lg font-medium text-gray-700">{pagetype} Page</p>
-          )}
 
           {/* Sign Out Button */}
           <Button
