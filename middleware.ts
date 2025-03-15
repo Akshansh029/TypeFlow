@@ -1,5 +1,6 @@
 export { default } from "next-auth/middleware";
 
 export const config = {
-  matcher: ["/profile", "/leaderboard"],
+  // If empty it will match all paths and protect all routess
+  matcher: ["/leaderboard"],
 };

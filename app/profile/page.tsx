@@ -192,19 +192,23 @@ import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import { GithubIcon } from "lucide-react";
 
 export default function AuthPage() {
-  // Get user session
   const { data: session, status } = useSession();
 
   // Redirect to login page if user is not authenticated
   if (status === "loading") {
-    return <p className="text-center text-gray-400">Loading...</p>;
+    return (
+      <div className="flex items-center justify-center bg-primary h-[calc(100vh-84px)]">
+        <div className="w-18 h-18 border-t-transparent border-b-transparent border-r-transparent border-l-zinc-600 rounded-full animate-spin border-4"></div>
+      </div>
+    );
   }
 
-  if (status === "unauthenticated") {
-    redirect("/api/auth/signin?callbackUrl=/client");
-  }
+  // if (status === "unauthenticated") {
+  //   redirect("/");
+  // }
 
   // Extract user details safely
   const user = session?.user;
@@ -226,21 +230,37 @@ export default function AuthPage() {
           )}
 
           {/* Greeting Message */}
-          <h1 className="text-2xl font-semibold text-gray-900">
-            Hello, {user.name ?? "User"}!
-          </h1>
-          <p className="text-gray-600 text-sm">{user.email}</p>
+          <div className="flex flex-col gap-2">
+            <h1 className="text-2xl font-semibold text-gray-900">
+              Hello, {user.name ?? "User"}!
+            </h1>
+            <h2 className="text-lg font-medium text-gray-900">
+              Excited to see you here!
+            </h2>
+          </div>
+          <p className="text-gray-600 text-sm">
+            Email address:{" "}
+            <span className="font-medium text-gray-900">{user.email}</span>
+          </p>
 
-          {/* Sign Out Button */}
           <Button
             className="w-full py-2 bg-red-600 hover:bg-red-700 transition rounded-lg cursor-pointer"
-            onClick={() => redirect("/api/auth/signout")}
+            onClick={() => redirect("/api/auth/signout?callbackUrl=/")}
           >
             Sign Out
           </Button>
         </main>
       ) : (
-        <p className="text-gray-300">No user found</p>
+        <div className="flex flex-col gap-6 items-center justify-center">
+          <p className="text-gray-300">Login to view your profile</p>
+          <Button
+            className="w-full py-2 bg-indigo-500 hover:bg-indigo-600 transition rounded-lg cursor-pointer"
+            onClick={() => redirect("/api/auth/signin?callbackUrl=/profile")}
+          >
+            <GithubIcon className="h-4 w-4 font-semibold" />
+            Sign In using GitHub
+          </Button>
+        </div>
       )}
     </div>
   );

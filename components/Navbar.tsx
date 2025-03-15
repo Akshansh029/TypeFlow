@@ -2,23 +2,13 @@
 
 import { useState, useCallback } from "react";
 import Link from "next/link";
-import {
-  Keyboard,
-  Crown,
-  Info,
-  Settings,
-  Bell,
-  User,
-  Menu,
-  X,
-} from "lucide-react";
+import { Keyboard, Crown, Info, Settings, User, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const NAV_ITEMS = [
   { href: "/leaderboard", label: "Leaderboard", icon: Crown },
   { href: "/about", label: "About", icon: Info },
   { href: "/settings", label: "Settings", icon: Settings },
-  { href: "/notifications", label: "Notifications", icon: Bell },
   { href: "/profile", label: "Profile", icon: User },
 ];
 
