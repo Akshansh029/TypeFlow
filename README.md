@@ -60,7 +60,7 @@ First, run the development server:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/typing-test.git
+git clone https://github.com/akshansh029/typeflow.git
 ```
 
 2. Install dependencies:
