@@ -1,22 +1,11 @@
 "use client";
 
-import { useState, useTransition } from "react";
 import Link from "next/link";
 import { Github, LucideLogIn, LucideUserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-
 export default function AuthPage() {
-  const [rememberMe, setRememberMe] = useState(false);
-  const [isPending, startTransition] = useTransition();
-
-  const handleGithubLogin = () => {
-    startTransition(() => {
-      //   const error =
-    });
-  };
-
   return (
     <div className="flex flex-col items-center justify-center bg-primary p-4 text-gray-300 md:flex-row md:gap-32 min-h-[calc(100vh-84px)]">
       <div className="flex w-full max-w-2xl md:items-start md:gap-32">
@@ -71,15 +60,15 @@ export default function AuthPage() {
           <div className="mb-4 flex gap-4">
             <Button
               variant="outline"
-              className="flex-1 bg-[#1e1e26] py-2 text-gray-300 hover:bg-[#2a2a36]"
+              className="flex-1 bg-[#1e1e26] py-2 text-gray-300 hover:bg-neutral-200 hover:text-gray-800"
             >
               <span className="text-lg font-medium">G</span>
             </Button>
             <Button
               variant="outline"
-              className="flex-1 bg-[#1e1e26] py-2 text-gray-300 hover:bg-[#2a2a36]"
+              className="flex-1 bg-[#1e1e26] py-2 text-gray-300 hover:bg-neutral-200 hover:text-gray-800"
             >
-              <Github />
+              <Github className="h-4 w-4 font-semibold" />
             </Button>
           </div>
           <div className="mb-4 flex items-center justify-center">
@@ -101,8 +90,6 @@ export default function AuthPage() {
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="remember"
-                checked={rememberMe}
-                onCheckedChange={(checked) => setRememberMe(checked as boolean)}
                 className="border-gray-600 data-[state=checked]:bg-gray-600"
               />
               <label
