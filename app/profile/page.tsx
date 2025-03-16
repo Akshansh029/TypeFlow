@@ -192,7 +192,7 @@ import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import Image from "next/image";
-import { GithubIcon } from "lucide-react";
+import { GithubIcon, LucideUserPlus } from "lucide-react";
 
 export default function AuthPage() {
   const { data: session, status } = useSession();
@@ -259,6 +259,13 @@ export default function AuthPage() {
           >
             <GithubIcon className="h-4 w-4 font-semibold" />
             Sign In using GitHub
+          </Button>
+          <Button
+            className="w-full py-2 bg-indigo-500 hover:bg-indigo-600 transition rounded-lg cursor-pointer"
+            onClick={() => redirect("/auth/register")}
+          >
+            <LucideUserPlus className="h-4 w-4 font-semibold" />
+            Register
           </Button>
         </div>
       )}

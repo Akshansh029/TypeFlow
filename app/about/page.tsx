@@ -65,7 +65,7 @@ const About = () => {
                 variant="secondary"
                 className="flex gap-2 text-zinc-800 hover:text-zinc-800 cursor-pointer"
               >
-                <Github className="w-5 h-5" /> My GitHub
+                <Github className="w-5 h-5" /> GitHub
               </Button>
             </Link>
             <Link
@@ -76,7 +76,15 @@ const About = () => {
                 variant="secondary"
                 className="flex gap-2 text-zinc-800 hover:text-zinc-800 cursor-pointer"
               >
-                <Linkedin className="w-5 h-5" /> My LinkedIn
+                <Linkedin className="w-5 h-5" /> LinkedIn
+              </Button>
+            </Link>
+            <Link href="https://akshansh-singh.vercel.app/" target="_blank">
+              <Button
+                variant="secondary"
+                className="flex gap-2 text-zinc-800 hover:text-zinc-800 cursor-pointer"
+              >
+                <Code2 className="w-5 h-5" /> Portfolio
               </Button>
             </Link>
           </div>
@@ -94,7 +102,7 @@ const About = () => {
         </p>
         <Link href="https://github.com/Akshansh029/typeflow" target="_blank">
           <Button className="flex gap-2 bg-indigo-600 hover:bg-indigo-700 cursor-pointer">
-            <Code2 className="w-5 h-5" /> View Repository
+            View Repository
           </Button>
         </Link>
       </div>
