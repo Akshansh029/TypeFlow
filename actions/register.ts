@@ -2,7 +2,7 @@
 
 import { RegisterSchema } from "@/schemas";
 import { z } from "zod";
-import bcrypt from "bcryptjs";
+import bcrypt from "@node-rs/bcrypt";
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/data/user";
 

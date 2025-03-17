@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 
 import { LoginSchema } from "./schemas";
 import { getUserByEmail } from "./data/user";
-import bcrypt from "bcryptjs";
+import bcrypt from "@node-rs/bcrypt";
 
 export default {
   providers: [
