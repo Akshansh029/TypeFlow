@@ -7,10 +7,10 @@ import { ArrowUpLeft, Construction } from "lucide-react";
 import Link from "next/link";
 const Leaderboard = async () => {
   // using server session to get the user's session
-  const session = await getServerSession(options);
-  if (!session) {
-    redirect("/");
-  }
+  // const session = await getServerSession(options);
+  // if (!session) {
+  //   redirect("/");
+  // }
 
   return (
     <div className="min-h-[calc(100vh-84px)] bg-primary p-8 flex flex-col items-center justify-center gap-24">
