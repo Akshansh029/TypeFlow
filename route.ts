@@ -1,0 +1,10 @@
+export const publicRoutes = ["/", "/about", "/settings", "/leaderboard"];
+
+// These routes will redirect logged in users to the PROFILE page
+export const authRoutes = ["/auth/login", "/auth/register"];
+
+// These routes will be used for the API auth purposes
+export const apiAuthPrefix = "/api/auth";
+
+// This is the default redirect path for logged in users
+export const DEFAULT_LOGIN_REDIRECT = "/profile";

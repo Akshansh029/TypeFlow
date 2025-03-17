@@ -11,7 +11,7 @@ import "./globals.css";
 import Navbar from "../components/Navbar";
 import { cn } from "../lib/utils";
 import { Toaster } from "sonner";
-import SessionProviderWrapper from "@/components/SessionProviderWrapper"; // ✅ Import SessionProviderWrapper
+import SessionProviderWrapper from "@/components/SessionProviderWrapper";
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
