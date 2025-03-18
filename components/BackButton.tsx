@@ -10,9 +10,14 @@ interface BackButtonProps {
 
 export const BackButton = ({ href, label }: BackButtonProps) => {
   return (
-    <Button variant="link" className="font-normal w-full" size="sm" asChild>
-      <Link href={href} className="hover:underline">
-        {label}
+    <Button
+      variant="link"
+      className="font-normal w-full inline-flex hover:underline "
+      size="sm"
+      asChild
+    >
+      <Link href={href}>
+        <span className="underline">{label}</span>
       </Link>
     </Button>
   );

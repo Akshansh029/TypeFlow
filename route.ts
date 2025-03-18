@@ -1,7 +1,7 @@
 export const publicRoutes = ["/", "/about", "/settings", "/leaderboard"];
 
 // These routes will redirect logged in users to the PROFILE page
-export const authRoutes = ["/auth/login", "/auth/register"];
+export const authRoutes = ["/auth/login", "/auth/register", "/auth/error"];
 
 // These routes will be used for the API auth purposes
 export const apiAuthPrefix = "/api/auth";
