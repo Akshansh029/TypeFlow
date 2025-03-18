@@ -1,6 +1,3 @@
-import { Header } from "./Header";
-import { BackButton } from "./BackButton";
-import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { CardWrapper } from "./CardWrapper";
 import { FaExclamationTriangle } from "react-icons/fa";
 
