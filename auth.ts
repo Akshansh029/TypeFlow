@@ -6,9 +6,12 @@ import { db } from "@/lib/db";
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   callbacks: {
+    async session({ token, session }) {
+      // console.log({ sessionToken: token });
+      return session;
+    },
     async jwt({ token }) {
-      console.log({ token });
-
+      // console.log({ token });
       return token;
     },
   },
