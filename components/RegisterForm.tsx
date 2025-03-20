@@ -8,7 +8,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -18,6 +17,7 @@ import { FormError } from "./FormError";
 import { FormSuccess } from "./FormSuccess";
 import { register } from "@/actions/register";
 import { useState, useTransition } from "react";
+import { LucideUserPlus } from "lucide-react";
 export const RegisterForm = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
@@ -46,25 +46,27 @@ export const RegisterForm = () => {
 
   return (
     <CardWrapper
+      heading="register"
+      icon={LucideUserPlus}
       headerLabel="Create an account"
       backButtonLabel="Already have an account?"
       backButtonHref="/auth/login"
       showSocial
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-4">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
-                      placeholder="john doe"
+                      placeholder="name"
+                      className="border-0 bg-[#1e1e26] placeholder-gray-500 text-gray-300"
                     />
                   </FormControl>
                   <FormMessage />
@@ -76,13 +78,13 @@ export const RegisterForm = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
-                      placeholder="johndoe@gmail.com"
+                      placeholder="email"
                       type="email"
+                      className="text-gray-300 placeholder-gray-500 border-0 bg-[#1e1e26]"
                     />
                   </FormControl>
                   <FormMessage />
@@ -94,13 +96,13 @@ export const RegisterForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
-                      placeholder="******"
+                      placeholder="password"
                       type="password"
+                      className="border-0 bg-[#1e1e26] placeholder-gray-500 text-gray-300"
                     />
                   </FormControl>
                   <FormMessage />
@@ -112,10 +114,10 @@ export const RegisterForm = () => {
           <FormSuccess message={success} />
           <Button
             type="submit"
-            className="w-full cursor-pointer"
+            className="cursor-pointer w-full bg-[#1e1e26] py-2 hover:bg-[#2a2a36]"
             disabled={isPending}
           >
-            Create an account
+            sign in
           </Button>
         </form>
       </Form>

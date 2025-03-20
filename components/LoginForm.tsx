@@ -8,7 +8,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -19,6 +18,7 @@ import { FormSuccess } from "./FormSuccess";
 import { login } from "@/actions/login";
 import { useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
+import { LucideLogIn } from "lucide-react";
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
@@ -52,26 +52,31 @@ export const LoginForm = () => {
 
   return (
     <CardWrapper
+      icon={LucideLogIn}
+      heading="login"
       headerLabel="Welcome back"
       backButtonLabel="Don't have an account?"
       backButtonHref="/auth/register"
       showSocial
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6 border-0"
+        >
           <div className="space-y-4">
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
-                      placeholder="johndoe@gmail.com"
+                      placeholder="email"
                       type="email"
+                      className="text-gray-300 placeholder-gray-500 border-0 bg-[#1e1e26]"
                     />
                   </FormControl>
                   <FormMessage />
@@ -83,13 +88,13 @@ export const LoginForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
-                      placeholder="******"
+                      placeholder="password"
                       type="password"
+                      className="border-0 bg-[#1e1e26] placeholder-gray-500 text-gray-300"
                     />
                   </FormControl>
                   <FormMessage />
@@ -101,10 +106,14 @@ export const LoginForm = () => {
           <FormSuccess message={success} />
           <Button
             type="submit"
-            className="w-full cursor-pointer"
+            className="cursor-pointer w-full bg-[#1e1e26] py-2 hover:bg-[#2a2a36]"
             disabled={isPending}
           >
-            Login
+            {isPending ? (
+              <div className="w-5 h-5 border-t-transparent border-b-transparent border-r-transparent border-l-gray-300 rounded-full animate-spin border-4"></div>
+            ) : (
+              "sign in"
+            )}
           </Button>
         </form>
       </Form>

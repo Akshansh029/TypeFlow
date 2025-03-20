@@ -12,12 +12,12 @@ export const BackButton = ({ href, label }: BackButtonProps) => {
   return (
     <Button
       variant="link"
-      className="font-normal w-full inline-flex hover:underline "
+      className="font-normal w-full inline-flex hover:underline text-gray-300"
       size="sm"
       asChild
     >
       <Link href={href}>
-        <span className="underline">{label}</span>
+        <span className="underline text-gray-300">{label}</span>
       </Link>
     </Button>
   );
