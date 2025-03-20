@@ -14,7 +14,7 @@ import { RotateCw } from "lucide-react";
 import { useMenuStore } from "@/lib/store";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-// import useTypingSound from "@/hooks/useTypingSound";
+import useTypingSound from "@/hooks/useTypingSound";
 
 interface WPMDataPoint {
   time: number;
@@ -22,9 +22,8 @@ interface WPMDataPoint {
 }
 
 export default function TypingTest() {
-  const { selectedMode, selectedTime, fontSize, fontFamily } = useMenuStore();
-  // const { selectedMode, selectedTime, fontSize, fontFamily, isSoundEnabled } =
-  //   useMenuStore();
+  const { selectedMode, selectedTime, fontSize, fontFamily, isSoundEnabled } =
+    useMenuStore();
   const [text, setText] = useState("");
   const [userInput, setUserInput] = useState("");
   const [timer, setTimer] = useState<number>(selectedTime);
@@ -33,13 +32,13 @@ export default function TypingTest() {
   const [wpmData, setWpmData] = useState<WPMDataPoint[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const [currentWPM, setCurrentWPM] = useState<number>(0);
-  // const typingSound = useTypingSound("/sounds/typewriter.wav", isSoundEnabled);
+  const typingSound = useTypingSound("/sounds/keyboard-1.wav");
 
   // Using refs to store counts so they always reflect the latest values.
   const totalTypedCharsRef = useRef(0);
   const totalCorrectCharsRef = useRef(0);
   const errorCountRef = useRef(0);
-  const startTimeRef = useRef<number | null>(null); // Track test start time
+  const startTimeRef = useRef<number | null>(null);
 
   // On mount, generate initial words and focus the hidden input.
   useEffect(() => {
@@ -111,9 +110,9 @@ export default function TypingTest() {
       }
     }
 
-    // if (value.length > userInput.length) {
-    //   typingSound(); // Play typing sound when user types
-    // }
+    if (value.length > userInput.length) {
+      typingSound(); // Play typing sound when user types
+    }
 
     setUserInput(value);
   };
@@ -237,7 +236,6 @@ export default function TypingTest() {
     }, 50);
   }, [selectedMode, selectedTime]);
 
-  // Add this useEffect to listen for time changes and restart test
   useEffect(() => {
     restart();
   }, [selectedTime, restart]);

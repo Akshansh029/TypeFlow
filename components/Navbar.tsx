@@ -6,6 +6,7 @@ import { Keyboard, Crown, Info, Settings, User, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const NAV_ITEMS = [
+  { href: "/", label: "Home", icon: Keyboard },
   { href: "/leaderboard", label: "Leaderboard", icon: Crown },
   { href: "/about", label: "About", icon: Info },
   { href: "/settings", label: "Settings", icon: Settings },
@@ -29,9 +30,16 @@ export default function Navbar() {
                 TypeFlow
               </span>
             </Link>
-            <p className="hidden md:block text-sm text-zinc-600 ml-2">
-              Test your typing speed and improve your skills
-            </p>
+            {/* <Link href="/">
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Home"
+                className="text-zinc-400 hover:text-white hover:bg-transparent cursor-pointer"
+              >
+                <Keyboard className="h-8 w-8 transition-colors" />
+              </Button>
+            </Link> */}
           </div>
 
           {/* Desktop Navigation */}
@@ -43,7 +51,7 @@ export default function Navbar() {
                   size="icon"
                   title={label}
                   aria-label={label}
-                  className="text-zinc-600 hover:text-white hover:bg-transparent cursor-pointer"
+                  className="text-zinc-400 hover:text-white hover:bg-transparent cursor-pointer"
                 >
                   <Icon className="h-8 w-8" />
                 </Button>

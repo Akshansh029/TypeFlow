@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
 import { useMenuStore, type FontSize, type FontFamily } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import {
@@ -9,6 +10,7 @@ import {
   Source_Code_Pro,
   Ubuntu_Mono,
 } from "next/font/google";
+import { useState } from "react";
 
 const fontSizes: { id: FontSize; label: string; class: string }[] = [
   { id: "small", label: "Small", class: "text-xl" },
@@ -38,6 +40,8 @@ const fontFamilies: { id: FontFamily; label: string; class: string }[] = [
 ];
 
 export default function Settings() {
+  const [typingVolume, setTypingVolume] = useState(33);
+
   const {
     fontSize,
     setFontSize,
@@ -45,6 +49,9 @@ export default function Settings() {
     setFontFamily,
     enableSound,
     disableSound,
+    isSoundEnabled,
+    volume,
+    setVolume,
   } = useMenuStore();
 
   return (
@@ -55,19 +62,48 @@ export default function Settings() {
           <h2 className="text-xl font-medium text-zinc-400">typing sound</h2>
           <div className="flex gap-4">
             <Button
-              className="h-8 bg-zinc-800 text-white"
+              className={cn(
+                "h-8 hover:ring-1 ",
+                isSoundEnabled
+                  ? "bg-neutral-200 hover:bg-neutral-200 "
+                  : "bg-zinc-800 hover:bg-zinc-800",
+                isSoundEnabled
+                  ? "text-black hover:text-black"
+                  : "text-white hover:text-white"
+              )}
               variant={"ghost"}
               onClick={enableSound}
             >
               On
             </Button>
             <Button
-              className="h-8 bg-zinc-800 text-white"
+              className={cn(
+                "h-8 hover:ring-1",
+                isSoundEnabled
+                  ? "bg-zinc-800 hover:bg-zinc-800"
+                  : "bg-neutral-200 hover:bg-neutral-200",
+                isSoundEnabled
+                  ? "text-white hover:text-white"
+                  : "text-black hover:text-black"
+              )}
               variant="ghost"
               onClick={disableSound}
             >
               Off
             </Button>
+          </div>
+        </section>
+        <section className="space-y-4 flex items-center justify-between">
+          <h2 className="text-xl font-medium text-zinc-400">typing volume</h2>
+          <div className="flex gap-4 items-center">
+            <Slider
+              value={[volume]}
+              max={100}
+              step={1}
+              onValueChange={(value) => setVolume(value[0])}
+              className="w-40 h-2 bg-zinc-700 rounded-lg"
+            />
+            <span className="text-white text-sm">{volume}%</span>
           </div>
         </section>
 

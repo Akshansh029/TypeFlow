@@ -1,10 +1,4 @@
-export const publicRoutes = [
-  "/",
-  "/about",
-  "/settings",
-  "/leaderboard",
-  "/random",
-];
+export const publicRoutes = ["/", "/about", "/settings", "/leaderboard"];
 
 // These routes will redirect logged in users to the PROFILE page
 export const authRoutes = ["/auth/login", "/auth/register", "/auth/error"];
