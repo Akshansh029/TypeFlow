@@ -10,7 +10,6 @@ import {
   Source_Code_Pro,
   Ubuntu_Mono,
 } from "next/font/google";
-import { useState } from "react";
 
 const fontSizes: { id: FontSize; label: string; class: string }[] = [
   { id: "small", label: "Small", class: "text-xl" },
@@ -40,8 +39,6 @@ const fontFamilies: { id: FontFamily; label: string; class: string }[] = [
 ];
 
 export default function Settings() {
-  const [typingVolume, setTypingVolume] = useState(33);
-
   const {
     fontSize,
     setFontSize,
