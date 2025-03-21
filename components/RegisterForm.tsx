@@ -66,7 +66,7 @@ export const RegisterForm = () => {
                       {...field}
                       disabled={isPending}
                       placeholder="name"
-                      className="border-0 bg-[#1e1e26] placeholder-gray-500 text-gray-300"
+                      className="border-0 bg-[#1b1e2c] placeholder:text-neutral-400 text-gray-300"
                     />
                   </FormControl>
                   <FormMessage />
@@ -84,7 +84,7 @@ export const RegisterForm = () => {
                       disabled={isPending}
                       placeholder="email"
                       type="email"
-                      className="text-gray-300 placeholder-gray-500 border-0 bg-[#1e1e26]"
+                      className="text-gray-300 placeholder:text-neutral-400 border-0 bg-[#1b1e2c]"
                     />
                   </FormControl>
                   <FormMessage />
@@ -102,7 +102,7 @@ export const RegisterForm = () => {
                       disabled={isPending}
                       placeholder="password"
                       type="password"
-                      className="border-0 bg-[#1e1e26] placeholder-gray-500 text-gray-300"
+                      className="border-0 bg-[#1b1e2c] placeholder:text-neutral-400 text-gray-300"
                     />
                   </FormControl>
                   <FormMessage />
@@ -114,10 +114,10 @@ export const RegisterForm = () => {
           <FormSuccess message={success} />
           <Button
             type="submit"
-            className="cursor-pointer w-full bg-[#1e1e26] py-2 hover:bg-[#2a2a36]"
+            className="cursor-pointer w-full bg-[#495278] py-2 hover:bg-[#495278]/75"
             disabled={isPending}
           >
-            sign in
+            sign up
           </Button>
         </form>
       </Form>

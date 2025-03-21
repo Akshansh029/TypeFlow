@@ -6,8 +6,6 @@ interface ProfileDisplayProps {
 }
 
 const ModeSummary = ({ data }: ProfileDisplayProps) => {
-  console.log(data);
-
   return (
     <section className="w-full flex flex-col md:flex-row gap-6 bg-transparent py-8 text-white">
       <div className="flex-1 flex flex-col md:flex-row gap-4 md:gap-0 justify-around rounded-lg bg-[#1a1e2a] px-2 py-6">

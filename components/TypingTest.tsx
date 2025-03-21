@@ -330,7 +330,7 @@ export default function TypingTest() {
               >
                 {text.split("").map((char, i) => {
                   const userChar = userInput[i];
-                  let color = "text-zinc-600";
+                  let color = "para-text";
                   if (userChar != null) {
                     color =
                       userChar === char ? "text-neutral-200" : "text-red-400";
@@ -348,8 +348,8 @@ export default function TypingTest() {
 
         {!results && (
           <div className="flex flex-col items-center gap-2 mt-8">
-            <span className="text-sm text-zinc-600">
-              <kbd className="text-primary bg-zinc-500 py-1 px-2 rounded">
+            <span className="text-sm text-neutral-400">
+              <kbd className="bg-[#323852] text-neutral-400 py-1 px-2 rounded">
                 enter
               </kbd>{" "}
               - restart test
