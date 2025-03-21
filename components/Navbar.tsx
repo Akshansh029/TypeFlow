@@ -6,11 +6,11 @@ import { Keyboard, Crown, Info, Settings, User, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Home", icon: Keyboard },
-  { href: "/leaderboard", label: "Leaderboard", icon: Crown },
-  { href: "/about", label: "About", icon: Info },
-  { href: "/settings", label: "Settings", icon: Settings },
-  { href: "/profile", label: "Profile", icon: User },
+  { href: "/", label: "Home", icon: Keyboard, color: "#f94348" },
+  { href: "/leaderboard", label: "Leaderboard", icon: Crown, color: "#9261ff" },
+  { href: "/about", label: "About", icon: Info, color: "#3cc5f8" },
+  { href: "/settings", label: "Settings", icon: Settings, color: "#4acb8a" },
+  { href: "/profile", label: "Profile", icon: User, color: "#ffd543" },
 ];
 
 export default function Navbar() {
@@ -38,14 +38,15 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-4">
-            {NAV_ITEMS.map(({ href, label, icon: Icon }) => (
+            {NAV_ITEMS.map(({ href, label, icon: Icon, color }) => (
               <Link key={href} href={href}>
                 <Button
                   variant="ghost"
                   size="icon"
                   title={label}
                   aria-label={label}
-                  className="text-zinc-400 hover:text-white hover:bg-transparent cursor-pointer"
+                  className="w-10 h-10 text-black rounded-full hover:text-white hover:bg-transparent cursor-pointer"
+                  style={{ backgroundColor: color }}
                 >
                   <Icon className="h-8 w-8" />
                 </Button>
