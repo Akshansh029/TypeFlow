@@ -1,7 +1,12 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Stats, User } from "./interfaces";
 import { User2 } from "lucide-react";
+import { format } from "date-fns";
+import { FaSignOutAlt } from "react-icons/fa";
+import { Button } from "@/components/ui/button";
+import { signOutAction } from "@/actions/signout";
+import MoonLoader from "react-spinners/MoonLoader";
 
 interface ProfileDisplayProps {
   user: User | null;
@@ -9,6 +14,29 @@ interface ProfileDisplayProps {
 }
 
 const ProfileSummary = ({ user, data }: ProfileDisplayProps) => {
+  const [userInfo, setUserInfo] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  console.log(userInfo);
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const response = await fetch("/api/user");
+        if (!response.ok) throw new Error("Failed to fetch data");
+
+        const data = await response.json();
+        setUserInfo(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchUser();
+  }, []);
+
   return (
     <section className="w-full flex flex-col md:flex-row gap-6 bg-[#1a1e2a] rounded-lg px-6 py-8 text-white">
       <div className="flex flex-col md:flex-row items-center gap-4">
@@ -32,7 +60,22 @@ const ProfileSummary = ({ user, data }: ProfileDisplayProps) => {
           <div className="flex items-center gap-2">
             <h1 className="text-2xl font-bold">{user?.name || "User"}</h1>
           </div>
-          <p className="text-sm text-gray-400">Joined 14 Mar 2025</p>
+          {loading ? (
+            <MoonLoader color="#b2b2b2" size={25} className="mx-auto" />
+          ) : (
+            <>
+              <p className="text-sm text-gray-400">
+                Joined{" "}
+                {userInfo?.createdAt
+                  ? format(new Date(userInfo.createdAt), "d MMM, yyyy")
+                  : "N/A"}
+              </p>
+              <p className="text-sm text-gray-400">
+                Email -{" "}
+                <span className="text-neutral-200">{userInfo?.email}</span>
+              </p>
+            </>
+          )}
         </div>
       </div>
 
@@ -59,6 +102,16 @@ const ProfileSummary = ({ user, data }: ProfileDisplayProps) => {
                   .substr(11, 8) || "--:-:--"}
               </span>
             </div>
+            <form action={signOutAction}>
+              <Button
+                type="submit"
+                variant="secondary"
+                className="w-full cursor-pointer text-lg text-white py-6 bg-primary flex gap-3"
+              >
+                <span>Sign Out</span>
+                <FaSignOutAlt className="w-6 h-6 text-red-500" />
+              </Button>
+            </form>
           </div>
         </div>
       </div>

@@ -19,6 +19,7 @@ model User {
   password      String?
   accounts      Account[]
   tests      TestResult[]
+  createdAt  DateTime     @default(now())
  
   @@map("users")
 }

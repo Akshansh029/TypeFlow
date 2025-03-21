@@ -209,7 +209,6 @@ export default function TypingTest() {
       }
 
       const savedData = await response.json();
-      console.log("Test stats saved:", savedData);
     } catch (error) {
       console.error("Error saving test stats:", error);
     }
@@ -217,7 +216,6 @@ export default function TypingTest() {
 
   useEffect(() => {
     if (results) {
-      console.log("Updated results: ", results);
       saveTestResult();
     }
   }, [results]);
