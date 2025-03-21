@@ -15,7 +15,7 @@ export const Socials = () => {
     <div className="flex items-center w-full gap-x-2">
       <Button
         variant="outline"
-        className="flex-1 bg-[#1e1e26] py-2 text-gray-300 hover:bg-neutral-200 hover:text-gray-800 cursor-pointer"
+        className="flex-1 bg-[#1b1e2c] py-2 text-gray-300 hover:bg-neutral-200 hover:text-gray-800 cursor-pointer"
         aria-label="Github"
         onClick={() => onClick("google")}
       >
@@ -24,7 +24,7 @@ export const Socials = () => {
       </Button>
       <Button
         variant="outline"
-        className="flex-1 bg-[#1e1e26] py-2 text-gray-300 hover:bg-neutral-200 hover:text-gray-800 cursor-pointer"
+        className="flex-1 bg-[#1b1e2c] py-2 text-gray-300 hover:bg-neutral-200 hover:text-gray-800 cursor-pointer"
         aria-label="Github"
         onClick={() => onClick("github")}
       >

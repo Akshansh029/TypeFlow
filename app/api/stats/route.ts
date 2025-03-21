@@ -51,6 +51,15 @@ export async function POST(request: Request) {
   }
 }
 
+const modeGroups = {
+  standard: ["normal", "medium", "hard"],
+  numbers: ["numbers"],
+  punctuation: ["punctuation"],
+  quote: ["quote"],
+};
+
+const durationList = [10, 20, 30, 50, 100];
+
 export async function GET() {
   const session = await auth();
   if (!session || !session.user) {
@@ -60,13 +69,13 @@ export async function GET() {
   const userId = session.user.id;
 
   try {
-    // Test history
+    // 1) Fetch full test history
     const testResults = await db.testResult.findMany({
       where: { userId },
       orderBy: { createdAt: "desc" },
     });
 
-    // Aggregated stats
+    // 2) Basic aggregated stats
     const stats = await db.testResult.aggregate({
       where: { userId },
       _max: {
@@ -81,14 +90,75 @@ export async function GET() {
         duration: true,
       },
       _count: {
-        id: true, // Total tests completed
+        id: true,
       },
       _sum: {
-        duration: true, // Total time spent
+        duration: true,
       },
     });
 
-    return NextResponse.json({ testResults, stats }, { status: 200 });
+    // 3) Aggregation by Mode Groups
+    const modeStats: Record<
+      string,
+      { netWPM: number | null; rawWPM: number | null; accuracy: number | null }
+    > = {};
+
+    for (const [groupName, modeArray] of Object.entries(modeGroups)) {
+      const agg = await db.testResult.aggregate({
+        where: {
+          userId,
+          mode: { in: modeArray },
+        },
+        _max: {
+          netWPM: true,
+          rawWPM: true,
+          accuracy: true,
+        },
+      });
+
+      modeStats[groupName] = {
+        netWPM: agg._max.netWPM,
+        rawWPM: agg._max.rawWPM,
+        accuracy: agg._max.accuracy,
+      };
+    }
+
+    // 4) Aggregation by Duration
+    const durationStats: Record<
+      number,
+      { netWPM: number | null; rawWPM: number | null; accuracy: number | null }
+    > = {};
+
+    for (const dur of durationList) {
+      const agg = await db.testResult.aggregate({
+        where: {
+          userId,
+          duration: dur,
+        },
+        _max: {
+          netWPM: true,
+          rawWPM: true,
+          accuracy: true,
+        },
+      });
+
+      durationStats[dur] = {
+        netWPM: agg._max.netWPM,
+        rawWPM: agg._max.rawWPM,
+        accuracy: agg._max.accuracy,
+      };
+    }
+
+    // 5) Return everything
+    return NextResponse.json(
+      {
+        testResults,
+        stats,
+        modeStats,
+        durationStats,
+      },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error fetching test results and stats:", error);
     return NextResponse.json(

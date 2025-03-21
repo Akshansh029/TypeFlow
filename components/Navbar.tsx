@@ -31,7 +31,7 @@ export default function Navbar() {
               </span>
             </Link>
 
-            <p className="hidden md:block text-sm text-zinc-600 ml-2">
+            <p className="hidden md:block text-sm text-[#e5e5e5]/90 ml-2">
               Test your typing speed and improve your skills
             </p>
           </div>
@@ -75,7 +75,7 @@ export default function Navbar() {
           } md:hidden`}
         >
           <div className="pt-4 pb-2 space-y-2">
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-sm text-[#e5e5e5]/90 mb-4">
               Test your typing speed and improve your skills
             </p>
             {NAV_ITEMS.map(({ href, label, icon: Icon }) => (
