@@ -11,8 +11,19 @@ interface User {
   image?: string | null;
 }
 
+interface TestResult {
+  id: string;
+  userId: string;
+  netWPM: number;
+  rawWPM: number;
+  accuracy: number;
+  mode: string;
+  duration: number;
+  createdAt: Date;
+}
+
 interface Stats {
-  testResults: any[];
+  testResults: TestResult[];
   stats: {
     _max: {
       netWPM: number | null;
