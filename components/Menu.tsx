@@ -40,7 +40,7 @@ export function MenuBar() {
     useMenuStore();
 
   return (
-    <div className="hidden md:flex flex-col lg:flex-row min-w-full md:min-w-[600px] items-center justify-center gap-2 bg-[#1a1a1a] p-2 rounded-lg">
+    <div className="hidden md:flex flex-col lg:flex-row min-w-full md:min-w-[600px] items-center justify-center gap-2 bg-[#1B1E2C] p-2 rounded-lg">
       <div className="flex flex-wrap md:flex-nowrap items-center justify-center gap-1 w-full">
         {menuItems.map((item) => {
           const isSelected = selectedMode === item.id;
