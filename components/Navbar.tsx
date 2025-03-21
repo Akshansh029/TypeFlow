@@ -79,7 +79,7 @@ export default function Navbar() {
             <p className="text-sm text-[#e5e5e5]/90 mb-4">
               Test your typing speed and improve your skills
             </p>
-            {NAV_ITEMS.map(({ href, label, icon: Icon, color }) => (
+            {NAV_ITEMS.map(({ href, label, icon: Icon }) => (
               <Link
                 key={href}
                 href={href}
