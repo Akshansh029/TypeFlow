@@ -18,8 +18,23 @@ model User {
   image         String?
   password      String?
   accounts      Account[]
+  tests      TestResult[]
  
   @@map("users")
+}
+
+
+model TestResult {
+  id         String       @id @default(cuid())
+  userId     String
+  user       User         @relation(fields: [userId], references: [id])
+  
+  netWPM     Int
+  rawWPM     Int
+  accuracy   Float
+  mode       String
+  duration   Int
+  createdAt  DateTime     @default(now())
 }
 
 model Account {

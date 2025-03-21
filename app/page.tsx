@@ -4,6 +4,7 @@ import TypingTest from "../components/TypingTest";
 
 export default async function Home() {
   const session = await auth();
+
   return (
     <>
       <main className="min-h-[calc(100vh-84px)] py-8 flex flex-col items-center gap-4 bg-primary">

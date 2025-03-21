@@ -170,7 +170,7 @@ export default function TypingTest() {
           { time: elapsedTime, wpm: currentNetWPM },
         ]);
 
-        // When time is up, clear interval and calculate final results.
+        // If time is up, clear interval and calculate final results.
         if (prevTime <= 1) {
           clearInterval(interval);
           calculateResults();
@@ -182,6 +182,45 @@ export default function TypingTest() {
 
     return () => clearInterval(interval);
   }, [isActive, timer, selectedTime, selectedMode]);
+
+  async function saveTestResult() {
+    if (!results) {
+      return;
+    }
+
+    try {
+      // Convert your test data into the shape expected by the API
+      const body = {
+        netWPM: results.netWPM,
+        rawWPM: results.grossWPM,
+        accuracy: results.accuracy,
+        mode: selectedMode,
+        duration: selectedTime,
+      };
+
+      const response = await fetch("/api/stats", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save test stats");
+      }
+
+      const savedData = await response.json();
+      console.log("Test stats saved:", savedData);
+    } catch (error) {
+      console.error("Error saving test stats:", error);
+    }
+  }
+
+  useEffect(() => {
+    if (results) {
+      console.log("Updated results: ", results);
+      saveTestResult();
+    }
+  }, [results]);
 
   const calculateResults = () => {
     const timeInSeconds = selectedTime;

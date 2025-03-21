@@ -30,16 +30,10 @@ export default function Navbar() {
                 TypeFlow
               </span>
             </Link>
-            {/* <Link href="/">
-              <Button
-                variant="ghost"
-                size="icon"
-                aria-label="Home"
-                className="text-zinc-400 hover:text-white hover:bg-transparent cursor-pointer"
-              >
-                <Keyboard className="h-8 w-8 transition-colors" />
-              </Button>
-            </Link> */}
+
+            <p className="hidden md:block text-sm text-zinc-600 ml-2">
+              Test your typing speed and improve your skills
+            </p>
           </div>
 
           {/* Desktop Navigation */}
