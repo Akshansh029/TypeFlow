@@ -208,7 +208,7 @@ export default function TypingTest() {
         throw new Error("Failed to save test stats");
       }
 
-      const savedData = await response.json();
+      await response.json();
     } catch (error) {
       console.error("Error saving test stats:", error);
     }
