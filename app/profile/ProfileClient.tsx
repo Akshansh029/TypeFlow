@@ -10,7 +10,6 @@ import ModeSummary from "./ModeSummary";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
