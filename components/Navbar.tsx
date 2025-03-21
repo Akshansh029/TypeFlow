@@ -4,7 +4,6 @@ import { useState, useCallback } from "react";
 import Link from "next/link";
 import { Keyboard, Crown, Info, Settings, User, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { href: "/", label: "Home", icon: Keyboard, color: "#f94348" },
@@ -80,7 +79,7 @@ export default function Navbar() {
             <p className="text-sm text-[#e5e5e5]/90 mb-4">
               Test your typing speed and improve your skills
             </p>
-            {NAV_ITEMS.map(({ href, label, icon: Icon }) => (
+            {NAV_ITEMS.map(({ href, label, icon: Icon, color }) => (
               <Link
                 key={href}
                 href={href}
