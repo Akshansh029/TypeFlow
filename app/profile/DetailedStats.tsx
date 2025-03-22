@@ -111,7 +111,7 @@ const DetailedStats = ({ data }: ProfileDisplayProps) => {
             </p>
             <span className="text-5xl font-medium">
               {data?.statsLastFive?._avg?.accuracy
-                ? data?.statsLastFive?._avg?.accuracy + "%"
+                ? Math.round(data?.statsLastFive?._avg?.accuracy) + "%"
                 : "-"}
             </span>
           </div>

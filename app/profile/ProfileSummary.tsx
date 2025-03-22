@@ -37,7 +37,7 @@ const ProfileSummary = ({ user, data }: ProfileDisplayProps) => {
 
   return (
     <section className="w-full flex flex-col md:flex-row gap-6 bg-[#1a1e2a] rounded-lg px-6 py-8 text-white">
-      <div className="flex flex-col md:flex-row items-center gap-4">
+      <div className="flex flex-col lg:flex-row items-center gap-4">
         <div className="relative">
           {user?.image ? (
             <Image

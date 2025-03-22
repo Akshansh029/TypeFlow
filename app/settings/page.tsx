@@ -63,7 +63,7 @@ export default function Settings() {
                 "h-8 hover:ring-1 ",
                 isSoundEnabled
                   ? "bg-neutral-200 hover:bg-neutral-200 "
-                  : "bg-zinc-800 hover:bg-zinc-800",
+                  : "bg-[#212636] hover:bg-[#212636]",
                 isSoundEnabled
                   ? "text-black hover:text-black"
                   : "text-white hover:text-white"
@@ -77,7 +77,7 @@ export default function Settings() {
               className={cn(
                 "h-8 hover:ring-1",
                 isSoundEnabled
-                  ? "bg-zinc-800 hover:bg-zinc-800"
+                  ? "bg-[#212636] hover:bg-[#212636]"
                   : "bg-neutral-200 hover:bg-neutral-200",
                 isSoundEnabled
                   ? "text-white hover:text-white"
@@ -98,7 +98,7 @@ export default function Settings() {
               max={100}
               step={1}
               onValueChange={(value) => setVolume(value[0])}
-              className="w-40 h-2 bg-zinc-700 rounded-lg"
+              className="w-40 h-2 bg-[#212636] rounded-lg"
             />
             <span className="text-white text-sm">{volume}%</span>
           </div>
@@ -113,7 +113,7 @@ export default function Settings() {
                 key={size.id}
                 variant="ghost"
                 className={cn(
-                  "h-8 bg-zinc-800 text-white",
+                  "h-8 bg-[#212636] text-white",
                   fontSize === size.id && "bg-neutral-200 text-black"
                 )}
                 onClick={() => setFontSize(size.id)}
@@ -133,7 +133,7 @@ export default function Settings() {
                 key={font.id}
                 variant="ghost"
                 className={cn(
-                  "h-8 bg-zinc-800 text-white",
+                  "h-8 bg-[#212636] text-white",
                   fontFamily === font.id && "bg-neutral-200 text-black"
                 )}
                 onClick={() => setFontFamily(font.id)}
@@ -147,10 +147,10 @@ export default function Settings() {
         {/* Preview Section */}
         <section className="space-y-4">
           <h2 className="text-xl font-medium text-zinc-400">preview</h2>
-          <div className="p-6 bg-zinc-800/50 rounded-lg">
+          <div className="p-6 bg-[#212636]/50 rounded-lg">
             <p
               className={cn(
-                "text-white",
+                "text-neutral-200",
                 fontFamilies.find((f) => f.id === fontFamily)?.class,
                 fontSizes.find((s) => s.id === fontSize)?.class
               )}
