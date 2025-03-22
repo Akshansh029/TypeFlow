@@ -36,7 +36,9 @@ export default function LeaderboardPage() {
       try {
         setLoading(true);
         const res = await fetch("/api/leaderboard");
-        if (!res.ok) {
+        // Check if the content-type indicates HTML
+        const contentType = res.headers.get("content-type");
+        if (!res.ok || (contentType && contentType.includes("text/html"))) {
           throw new Error("Failed to fetch leaderboard data");
         }
         const json = await res.json();
@@ -51,6 +53,7 @@ export default function LeaderboardPage() {
         setLoading(false);
       }
     }
+
     fetchData();
   }, []);
 
@@ -90,10 +93,10 @@ export default function LeaderboardPage() {
           All-time Leaderboard
         </h1>
 
-        <Table className="min-w-full border border-gray-700 rounded-md overflow-hidden">
+        <Table className="min-w-full border border-gray-700 rounded-md overflow-hidden px-4">
           <TableHeader>
             <TableRow className="bg-gray-800">
-              <TableHead className="w-[50px] text-left text-gray-300">
+              <TableHead className="w-[100px] text-center text-gray-300">
                 #
               </TableHead>
               <TableHead className="text-left text-gray-300">Name</TableHead>
@@ -124,10 +127,10 @@ export default function LeaderboardPage() {
 
               return (
                 <TableRow key={entry.id} className="border-b border-gray-700">
-                  <TableCell className="font-medium py-5">
+                  <TableCell className="font-medium py-5 px-4 text-center">
                     {rank === 1 ? (
                       <div className="flex items-center gap-2">
-                        <Crown className="h-4 w-4 text-yellow-400" />
+                        <Crown className="h-4 w-4 text-yellow-400 mx-auto" />
                       </div>
                     ) : (
                       <span className="text-neutral-100">{rank}</span>

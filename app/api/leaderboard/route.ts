@@ -1,25 +1,22 @@
-// /app/api/leaderboard/route.ts
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db"; // adjust to your Prisma client path
+import { db } from "@/lib/db";
 
 export async function GET() {
   try {
-    // 1) Group test results by user to get each user’s highest netWPM
+    // Group test results by user to get each user’s highest netWPM
     const grouped = await db.testResult.groupBy({
       by: ["userId"],
       _max: { netWPM: true },
     });
 
-    // 2) For each user, find the actual test row that matches their highest netWPM
-    //    and include the user details (name, image, etc.).
+    // For each user find the actual test row that matches their highest netWPM
     const bestTests = await Promise.all(
       grouped.map(async (entry) => {
         const bestWPM = entry._max.netWPM;
         // For safety, check if bestWPM is null (e.g., no tests)
         if (bestWPM == null) return null;
 
-        // Find the test row for that user that has netWPM = bestWPM
-        // If the user has multiple tests with the same bestWPM, you could pick the latest:
+        // Row for that user that has netWPM = bestWPM
         return db.testResult.findFirst({
           where: {
             userId: entry.userId,
@@ -40,10 +37,9 @@ export async function GET() {
       })
     );
 
-    // Filter out any nulls (in case bestWPM was null for some user)
     const validBestTests = bestTests.filter((test) => test !== null);
 
-    // 3) Sort them by netWPM descending
+    // Sorting in descending order
     validBestTests.sort((a, b) => {
       if (a && b) {
         return b.netWPM - a.netWPM;
@@ -51,12 +47,12 @@ export async function GET() {
       return 0;
     });
 
-    // 4) Take the top 10
+    // Top 10 results
     const topTen = validBestTests.slice(0, 10);
 
     return NextResponse.json({
       success: true,
-      data: topTen, // Each entry has { netWPM, rawWPM, accuracy, createdAt, user: { name, image }, ... }
+      data: topTen,
     });
   } catch (error) {
     console.error("Leaderboard API Error:", error);
