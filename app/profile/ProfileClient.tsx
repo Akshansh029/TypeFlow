@@ -14,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import DetailedStats from "./DetailedStats";
 
 export function ProfileClient({ user }: { user: User | null }) {
   const [data, setData] = useState<Stats | null>(null);
@@ -37,7 +38,7 @@ export function ProfileClient({ user }: { user: User | null }) {
   }, []);
 
   return (
-    <div className="flex justify-center min-h-[calc(100vh-84px)] bg-primary px-12 py-8">
+    <div className="flex justify-center min-h-[calc(100vh-88px)] bg-primary px-12 py-8">
       {loading ? (
         <div className="flex flex-col gap-4 my-auto items-center justify-center">
           <h1 className="font-medium text-3xl text-neutral-200">
@@ -49,6 +50,7 @@ export function ProfileClient({ user }: { user: User | null }) {
         <main className="w-full flex flex-col gap-4">
           <ProfileSummary user={user} data={data} />
           <ModeSummary data={data} />
+          <DetailedStats data={data} />
           <div className="w-full bg-[#1a1e2a] rounded-sm py-2">
             <Table className="">
               <TableHeader>

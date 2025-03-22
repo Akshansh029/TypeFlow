@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import {
-  Poppins,
   JetBrains_Mono,
   Fira_Code,
   Source_Code_Pro,
@@ -12,11 +11,6 @@ import Navbar from "../components/Navbar";
 import { cn } from "../lib/utils";
 import { Toaster } from "sonner";
 import SessionProviderWrapper from "@/components/SessionProviderWrapper";
-
-const poppins = Poppins({
-  weight: ["400", "500", "600", "700"],
-  subsets: ["latin"],
-});
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -66,7 +60,7 @@ export default function RootLayout({
         robotoMono.variable
       )}
     >
-      <body className={`${poppins.className} bg-white/5`}>
+      <body className={`${robotoMono.className} bg-white/5`}>
         <SessionProviderWrapper>
           <main className="min-h-screen">
             <Navbar />

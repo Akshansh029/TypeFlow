@@ -46,7 +46,7 @@ export const useMenuStore = create<TestStore>((set) => ({
   fontFamily: "roboto-mono",
   setFontSize: (size) => set({ fontSize: size }),
   setFontFamily: (font) => set({ fontFamily: font }),
-  isSoundEnabled: true,
+  isSoundEnabled: false,
   enableSound: () => set({ isSoundEnabled: true }),
   disableSound: () => set({ isSoundEnabled: false }),
   volume: 40,

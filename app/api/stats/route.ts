@@ -69,13 +69,13 @@ export async function GET() {
   const userId = session.user.id;
 
   try {
-    // 1) Fetch full test history
+    //  Fetch full test history
     const testResults = await db.testResult.findMany({
       where: { userId },
       orderBy: { createdAt: "desc" },
     });
 
-    // 2) Basic aggregated stats
+    // Basic aggregated stats
     const stats = await db.testResult.aggregate({
       where: { userId },
       _max: {
@@ -97,7 +97,7 @@ export async function GET() {
       },
     });
 
-    // 3) Aggregation by Mode Groups
+    // Aggregation by Mode Groups
     const modeStats: Record<
       string,
       { netWPM: number | null; rawWPM: number | null; accuracy: number | null }
@@ -123,7 +123,7 @@ export async function GET() {
       };
     }
 
-    // 4) Aggregation by Duration
+    // Aggregation by Duration
     const durationStats: Record<
       number,
       { netWPM: number | null; rawWPM: number | null; accuracy: number | null }
@@ -149,13 +149,45 @@ export async function GET() {
       };
     }
 
-    // 5) Return everything
+    // Stats for last 5 tests
+    const lastFiveTests = await db.testResult.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+    });
+
+    const lastFiveIds = lastFiveTests.map((t) => t.id);
+
+    const statsLastFive = await db.testResult.aggregate({
+      where: {
+        id: { in: lastFiveIds },
+      },
+      _max: {
+        netWPM: true,
+        rawWPM: true,
+        accuracy: true,
+      },
+      _avg: {
+        netWPM: true,
+        rawWPM: true,
+        accuracy: true,
+        duration: true,
+      },
+      _count: {
+        id: true,
+      },
+      _sum: {
+        duration: true,
+      },
+    });
+
     return NextResponse.json(
       {
         testResults,
         stats,
         modeStats,
         durationStats,
+        statsLastFive,
       },
       { status: 200 }
     );

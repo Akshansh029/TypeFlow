@@ -17,8 +17,6 @@ const ProfileSummary = ({ user, data }: ProfileDisplayProps) => {
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  console.log(userInfo);
-
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -72,7 +70,7 @@ const ProfileSummary = ({ user, data }: ProfileDisplayProps) => {
               </p>
               <p className="text-sm text-gray-400">
                 Email -{" "}
-                <span className="text-neutral-200">{userInfo?.email}</span>
+                <span className="text-neutral-100">{userInfo?.email}</span>
               </p>
             </>
           )}
@@ -84,19 +82,19 @@ const ProfileSummary = ({ user, data }: ProfileDisplayProps) => {
           <div className="flex flex-col sm:flex-row justify-around items-center gap-4">
             <div className="flex flex-col items-center">
               <span className="text-sm text-gray-400">tests started</span>
-              <span className="text-[42px] font-bold text-neutral-200">
+              <span className="text-[42px] font-bold text-neutral-100">
                 {data?.testResults.length || "-"}
               </span>
             </div>
             <div className="flex flex-col items-center">
               <span className="text-sm text-gray-400">highest wpm</span>
-              <span className="text-[42px] font-bold text-neutral-200">
+              <span className="text-[42px] font-bold text-neutral-100">
                 {data?.stats._max.netWPM || "-"}
               </span>
             </div>
             <div className="flex flex-col items-center">
               <span className="text-sm text-gray-400">time typing</span>
-              <span className="text-[42px] font-bold text-neutral-200">
+              <span className="text-[42px] font-bold text-neutral-100">
                 {new Date((data?.stats._sum.duration ?? 0) * 1000)
                   .toISOString()
                   .substr(11, 8) || "--:-:--"}

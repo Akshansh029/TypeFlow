@@ -52,7 +52,7 @@ export default function Settings() {
   } = useMenuStore();
 
   return (
-    <main className="min-h-[calc(100vh-84px)] bg-primary p-8">
+    <main className="min-h-[calc(100vh-88px)] bg-primary p-8">
       <div className="max-w-2xl mx-auto space-y-6">
         {/* Sound option Section */}
         <section className="space-y-4 flex items-center justify-between">

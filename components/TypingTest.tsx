@@ -279,7 +279,7 @@ export default function TypingTest() {
   return (
     <>
       {/* Mobile Warning */}
-      <div className="md:hidden flex flex-col items-center justify-center min-h-[calc(100vh-84px)] p-4 bg-primary text-center">
+      <div className="md:hidden flex flex-col items-center justify-center min-h-[calc(100vh-88px)] p-4 bg-primary text-center">
         <h2 className="text-2xl text-accent-primary font-semibold mb-4">
           ⚠️ Desktop Only
         </h2>
@@ -316,6 +316,7 @@ export default function TypingTest() {
               className="transparent p-2 mx-auto rounded-lg min-h-[150px] sm:min-h-[200px] flex items-center justify-center w-full"
             >
               <p
+                style={{ fontFamily: `"${fontFamily}", monospace` }}
                 className={cn(
                   "font-light text-center tracking-wide leading-relaxed max-w-[90vw] sm:max-w-6xl",
                   // `font-${fontFamily}`,
@@ -324,7 +325,6 @@ export default function TypingTest() {
                   fontSize === "large" && "text-3xl",
                   fontSize === "xl" && "text-4xl"
                 )}
-                style={{ fontFamily: `"${fontFamily}", monospace` }} // Ensure fallback
               >
                 {text.split("").map((char, i) => {
                   const userChar = userInput[i];

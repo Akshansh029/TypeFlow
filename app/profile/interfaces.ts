@@ -43,6 +43,25 @@ export interface Stats {
       duration: number | null;
     };
   };
+  statsLastFive?: {
+    _max: {
+      netWPM: number | null;
+      rawWPM: number | null;
+      accuracy: number | null;
+    };
+    _avg: {
+      netWPM: number | null;
+      rawWPM: number | null;
+      accuracy: number | null;
+      duration: number | null;
+    };
+    _count: {
+      id: number;
+    };
+    _sum: {
+      duration: number | null;
+    };
+  };
   modeStats: Record<string, AggregationResult>;
   durationStats: Record<number, AggregationResult>;
 }

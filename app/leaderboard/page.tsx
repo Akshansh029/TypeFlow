@@ -3,7 +3,7 @@ import { ArrowUpLeft, Construction } from "lucide-react";
 import Link from "next/link";
 const Leaderboard = async () => {
   return (
-    <div className="min-h-[calc(100vh-84px)] bg-primary p-8 flex flex-col items-center justify-center gap-24">
+    <div className="min-h-[calc(100vh-88px)] bg-primary p-8 flex flex-col items-center justify-center gap-24">
       <div className="flex flex-col items-center justify-center space-y-4">
         <Construction className="w-15 h-15 text-zinc-200" />
 
