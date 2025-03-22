@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table"; // shadcn table
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"; // shadcn avatar
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
+import { format } from "date-fns";
 
 interface LeaderboardEntry {
   id: string;
@@ -121,8 +122,8 @@ export default function LeaderboardPage() {
                 entry.accuracy != null
                   ? `${entry.accuracy.toFixed(2)}%`
                   : "N/A";
-              const dateStr = entry.createdAt
-                ? new Date(entry.createdAt).toLocaleString()
+              const dateStr = entry?.createdAt
+                ? format(new Date(entry?.createdAt), "h:mm a, d MMMM, yyyy")
                 : "N/A";
 
               return (
