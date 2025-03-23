@@ -249,15 +249,17 @@ export async function generateWords(
   return Array.from(wordsSet).join(" ");
 }
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
+
 async function getRandomQuote(): Promise<string> {
   try {
-    const response = await fetch("/api/quote");
+    const response = await fetch(`${baseUrl}/api/quote`);
     if (!response.ok) throw new Error("Failed to fetch quote");
 
     const data = await response.json();
     return `${data.q}`;
   } catch (error) {
     console.error(error);
-    return "Failed to load quote. Please try again.";
+    throw new Error("Failed to load quote. Please try again.");
   }
 }

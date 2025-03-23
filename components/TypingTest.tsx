@@ -29,6 +29,7 @@ export default function TypingTest() {
   const [isActive, setIsActive] = useState(false);
   const [results, setResults] = useState<Results | null>(null);
   const [wpmData, setWpmData] = useState<WPMDataPoint[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [currentWPM, setCurrentWPM] = useState<number>(0);
   const typingSound = useTypingSound("/sounds/keyboard-1.wav");
@@ -39,34 +40,32 @@ export default function TypingTest() {
   const errorCountRef = useRef(0);
   const startTimeRef = useRef<number | null>(null);
 
-  // On mount, generate initial words and focus the hidden input.
-  useEffect(() => {
-    if (selectedMode === "hard") {
-      generateWords(20, selectedMode)
-        .then((words) => setText(words))
-        .catch(() => setText(""));
-
+  // Function to load test text and handle errors
+  const loadText = async () => {
+    try {
+      setError(null); // Clear any previous error
+      const wordCount = selectedMode === "hard" ? 20 : 40;
+      const words = await generateWords(wordCount, selectedMode);
+      setText(words);
       setUserInput("");
       setIsActive(false);
-
       inputRef.current?.focus();
-    } else {
-      generateWords(40, selectedMode)
-        .then((words) => setText(words))
-        .catch(() => setText(""));
-
-      setUserInput("");
-      setIsActive(false);
-
-      inputRef.current?.focus();
+    } catch (err) {
+      console.error("Error loading text:", err);
+      setError("Unable to load test content. Please try again later.");
+      setText(""); // Prevent error text from being used
     }
+  };
+
+  // On mount, generate initial words
+  useEffect(() => {
+    loadText();
   }, [selectedMode]);
 
   const handleInputBlur = () => {
     inputRef.current?.focus();
   };
 
-  // Handle changes from the hidden input.
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
@@ -100,9 +99,9 @@ export default function TypingTest() {
       }
     }
 
-    // Real-time WPM
+    // Real-time WPM calculation
     if (startTimeRef.current) {
-      const elapsedTime = (Date.now() - startTimeRef.current) / 1000; // Convert ms to seconds
+      const elapsedTime = (Date.now() - startTimeRef.current) / 1000;
       if (elapsedTime > 0) {
         const grossWPM = (totalTypedCharsRef.current / 5) * (60 / elapsedTime);
         setCurrentWPM(Math.round(grossWPM));
@@ -116,28 +115,10 @@ export default function TypingTest() {
     setUserInput(value);
   };
 
-  // When the user finishes the current set, generate a new set.
+  // When user finishes the current set, generate a new set.
   useEffect(() => {
     if (isActive && userInput.length >= text.length) {
-      if (selectedMode === "hard") {
-        generateWords(20, selectedMode)
-          .then((words) => setText(words))
-          .catch(() => setText(""));
-
-        setUserInput("");
-        setIsActive(false);
-
-        inputRef.current?.focus();
-      } else {
-        generateWords(40, selectedMode)
-          .then((words) => setText(words))
-          .catch(() => setText(""));
-
-        setUserInput("");
-        setIsActive(false);
-
-        inputRef.current?.focus();
-      }
+      loadText();
     }
   }, [userInput, text, isActive]);
 
@@ -161,16 +142,14 @@ export default function TypingTest() {
         const currentNetWPM = calculateNetWPM(
           currentGrossWPM,
           errorCountRef.current,
-          elapsedTime / 60 // Convert seconds to minutes for net calculation.
+          elapsedTime / 60
         );
 
-        // Record the WPM data for charting.
         setWpmData((prev) => [
           ...prev,
           { time: elapsedTime, wpm: currentNetWPM },
         ]);
 
-        // If time is up, clear interval and calculate final results.
         if (prevTime <= 1) {
           clearInterval(interval);
           calculateResults();
@@ -181,15 +160,11 @@ export default function TypingTest() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isActive, timer, selectedTime, selectedMode]);
+  }, [isActive, timer, selectedTime]);
 
   async function saveTestResult() {
-    if (!results) {
-      return;
-    }
-
+    if (!results) return;
     try {
-      // Convert your test data into the shape expected by the API
       const body = {
         netWPM: results.netWPM,
         rawWPM: results.grossWPM,
@@ -207,7 +182,6 @@ export default function TypingTest() {
       if (!response.ok) {
         throw new Error("Failed to save test stats");
       }
-
       await response.json();
     } catch (error) {
       console.error("Error saving test stats:", error);
@@ -215,9 +189,7 @@ export default function TypingTest() {
   }
 
   useEffect(() => {
-    if (results) {
-      saveTestResult();
-    }
+    if (results) saveTestResult();
   }, [results]);
 
   const calculateResults = () => {
@@ -246,16 +218,7 @@ export default function TypingTest() {
 
   // Restart test
   const restart = useCallback(() => {
-    if (selectedMode === "hard") {
-      generateWords(20, selectedMode)
-        .then((words) => setText(words))
-        .catch(() => setText(""));
-    } else {
-      generateWords(40, selectedMode)
-        .then((words) => setText(words))
-        .catch(() => setText(""));
-    }
-
+    loadText();
     setUserInput("");
     setIsActive(false);
     setResults(null);
@@ -276,6 +239,19 @@ export default function TypingTest() {
     restart();
   }, [selectedTime, restart]);
 
+  // Fallback UI for error state.
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-88px)] p-4 bg-primary text-center">
+        <h2 className="text-2xl text-red-500 font-semibold mb-4">Error</h2>
+        <p className="text-gray-300 mb-4">{error}</p>
+        <Button onClick={restart} variant={"outline"}>
+          Try Again
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <>
       {/* Mobile Warning */}
@@ -290,7 +266,6 @@ export default function TypingTest() {
       </div>
 
       {/* Desktop App */}
-
       <div className="hidden md:block">
         {!results && (
           <div className="relative max-w-full mx-auto p-8 gap-4 bg-primary rounded-xl flex flex-col items-center justify-center">
@@ -307,7 +282,6 @@ export default function TypingTest() {
                 </div>
               )}
             </div>
-
             <motion.div
               key={text}
               initial={{ opacity: 0, scale: 0.95 }}
@@ -319,7 +293,6 @@ export default function TypingTest() {
                 style={{ fontFamily: `"${fontFamily}", monospace` }}
                 className={cn(
                   "font-light text-center tracking-wide leading-relaxed max-w-[90vw] sm:max-w-6xl",
-                  // `font-${fontFamily}`,
                   fontSize === "small" && "text-xl",
                   fontSize === "medium" && "text-2xl",
                   fontSize === "large" && "text-3xl",
