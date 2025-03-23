@@ -34,13 +34,12 @@ export default function TypingTest() {
   const [currentWPM, setCurrentWPM] = useState<number>(0);
   const typingSound = useTypingSound("/sounds/keyboard-1.wav");
 
-  // Using refs to store counts so they always reflect the latest values.
+  // Ref to store counts
   const totalTypedCharsRef = useRef(0);
   const totalCorrectCharsRef = useRef(0);
   const errorCountRef = useRef(0);
   const startTimeRef = useRef<number | null>(null);
 
-  // Function to load test text and handle errors
   const loadText = async () => {
     try {
       setError(null); // Clear any previous error
@@ -53,11 +52,11 @@ export default function TypingTest() {
     } catch (err) {
       console.error("Error loading text:", err);
       setError("Unable to load test content. Please try again later.");
-      setText(""); // Prevent error text from being used
+      setText("");
     }
   };
 
-  // On mount, generate initial words
+  // Generate initial words
   useEffect(() => {
     loadText();
   }, [selectedMode]);
@@ -109,20 +108,20 @@ export default function TypingTest() {
     }
 
     if (value.length > userInput.length) {
-      typingSound(); // Play typing sound when user types
+      typingSound();
     }
 
     setUserInput(value);
   };
 
-  // When user finishes the current set, generate a new set.
+  // When current set finishes, generate a new set
   useEffect(() => {
     if (isActive && userInput.length >= text.length) {
       loadText();
     }
   }, [userInput, text, isActive]);
 
-  // Update timer when selectedTime changes.
+  // Update timer for different time modes
   useEffect(() => {
     setTimer(selectedTime);
   }, [selectedTime]);
@@ -239,6 +238,34 @@ export default function TypingTest() {
     restart();
   }, [selectedTime, restart]);
 
+  const renderTextWithCursor = () => {
+    const elements = [];
+
+    for (let i = 0; i < text.length; i++) {
+      if (i === userInput.length) {
+        elements.push(<span key="cursor" className="cursor-blink"></span>);
+      }
+
+      const userChar = userInput[i];
+      let colorClass = "para-text";
+      if (userChar != null) {
+        colorClass = userChar === text[i] ? "text-neutral-200" : "text-red-400";
+      }
+
+      elements.push(
+        <span key={i} className={colorClass}>
+          {text[i]}
+        </span>
+      );
+    }
+
+    if (userInput.length === text.length) {
+      elements.push(<span key="cursor-end" className="cursor-blink"></span>);
+    }
+
+    return elements;
+  };
+
   // Fallback UI for error state.
   if (error) {
     return (
@@ -287,31 +314,19 @@ export default function TypingTest() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="transparent p-2 mx-auto rounded-lg min-h-[150px] sm:min-h-[200px] flex items-center justify-center w-full"
+              className="transparent p-2 mx-auto rounded-lg min-h-[180px] sm:min-h-[200px] flex items-center justify-center max-w-[1250px]"
             >
               <p
                 style={{ fontFamily: `"${fontFamily}", monospace` }}
                 className={cn(
-                  "font-light text-center tracking-wide leading-relaxed max-w-[90vw] sm:max-w-6xl",
+                  "font-normal text-center !leading-relaxed",
                   fontSize === "small" && "text-xl",
                   fontSize === "medium" && "text-2xl",
                   fontSize === "large" && "text-3xl",
                   fontSize === "xl" && "text-4xl"
                 )}
               >
-                {text.split("").map((char, i) => {
-                  const userChar = userInput[i];
-                  let color = "para-text";
-                  if (userChar != null) {
-                    color =
-                      userChar === char ? "text-neutral-200" : "text-red-400";
-                  }
-                  return (
-                    <span key={i} className={color}>
-                      {char}
-                    </span>
-                  );
-                })}
+                {renderTextWithCursor()}
               </p>
             </motion.div>
           </div>
@@ -390,7 +405,7 @@ export default function TypingTest() {
             }}
             onBlur={handleInputBlur}
             autoFocus={isActive}
-            className="absolute opacity-0 text-center"
+            className="absolute opacity-0 caret-transparent text-center"
             aria-label="Typing input"
           />
         )}

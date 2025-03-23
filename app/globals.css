@@ -45,7 +45,6 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background-primary: #121520;
   --accent-primary: #05df72;
-  /* --accent-primary: #e5e5e5; */
   --para-text: #4d5369;
 }
 
@@ -132,6 +131,11 @@
   }
 }
 
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
 .bg-primary {
   background-color: var(--background-primary);
 }
@@ -146,4 +150,17 @@
 
 .para-text {
   color: var(--para-text);
+}
+
+.cursor-blink {
+  display: inline-block;
+  width: 0;
+  border-left: 2px solid #fff;
+  height: 1em;
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+}
+
+.caret-transparent {
+  caret-color: transparent;
 }
