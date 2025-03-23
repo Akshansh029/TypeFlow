@@ -249,10 +249,10 @@ export async function generateWords(
   return Array.from(wordsSet).join(" ");
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
-
 async function getRandomQuote(): Promise<string> {
   try {
+    const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
+
     const response = await fetch(`${baseUrl}/api/quote`);
     if (!response.ok) throw new Error("Failed to fetch quote");
 

@@ -3,7 +3,7 @@ export const publicRoutes = [
   "/about",
   "/settings",
   "/leaderboard",
-  "/api/leaderboard",
+  "/api/quote",
 ];
 
 // These routes will redirect logged in users to the PROFILE page
