@@ -100,7 +100,6 @@ export const commonWords = [
   "most",
   "us",
 
-  // Hard mode words (Longer & Technical)
   "algorithm",
   "asynchronous",
   "authentication",

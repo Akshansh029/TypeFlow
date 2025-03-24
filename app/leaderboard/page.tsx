@@ -9,8 +9,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"; // shadcn table
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"; // shadcn avatar
+} from "@/components/ui/table";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 import { format } from "date-fns";
 
@@ -37,7 +37,7 @@ export default function LeaderboardPage() {
       try {
         setLoading(true);
         const res = await fetch("/api/leaderboard");
-        // Check if the content-type indicates HTML
+        // If the content-type indicates HTML
         const contentType = res.headers.get("content-type");
         if (!res.ok || (contentType && contentType.includes("text/html"))) {
           throw new Error("Failed to fetch leaderboard data");

@@ -1,4 +1,3 @@
-// app/profile/Profile.tsx (Server Component)
 import { auth } from "@/auth";
 import { ProfileClient } from "./ProfileClient";
 

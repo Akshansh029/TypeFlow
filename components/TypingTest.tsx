@@ -42,7 +42,7 @@ export default function TypingTest() {
 
   const loadText = async () => {
     try {
-      setError(null); // Clear any previous error
+      setError(null);
       const wordCount = selectedMode === "hard" ? 20 : 40;
       const words = await generateWords(wordCount, selectedMode);
       setText(words);
@@ -68,7 +68,7 @@ export default function TypingTest() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    // Start the timer on the first key press.
+    // Start the timer on first key press
     if (!isActive && value.length === 1) {
       setIsActive(true);
       startTimeRef.current = Date.now();
@@ -114,19 +114,19 @@ export default function TypingTest() {
     setUserInput(value);
   };
 
-  // When current set finishes, generate a new set
+  // New set if initial set finishes
   useEffect(() => {
     if (isActive && userInput.length >= text.length) {
       loadText();
     }
   }, [userInput, text, isActive]);
 
-  // Update timer for different time modes
+  // Update timer if time mode is changed
   useEffect(() => {
     setTimer(selectedTime);
   }, [selectedTime]);
 
-  // Timer countdown effect with WPM history update.
+  // Timer countdown
   useEffect(() => {
     if (!isActive || timer <= 0) return;
 
@@ -266,7 +266,7 @@ export default function TypingTest() {
     return elements;
   };
 
-  // Fallback UI for error state.
+  // Fallback UI for error state
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-88px)] p-4 bg-primary text-center">

@@ -97,7 +97,7 @@ export async function GET() {
       },
     });
 
-    // Aggregation by Mode Groups
+    // Aggregation by Mode
     const modeStats: Record<
       string,
       { netWPM: number | null; rawWPM: number | null; accuracy: number | null }
