@@ -36,13 +36,17 @@ export default function LeaderboardPage() {
     async function fetchData() {
       try {
         setLoading(true);
-        const res = await fetch("/api/leaderboard");
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/leaderboard`
+        );
         // If the content-type indicates HTML
         const contentType = res.headers.get("content-type");
         if (!res.ok || (contentType && contentType.includes("text/html"))) {
           throw new Error("Failed to fetch leaderboard data");
         }
         const json = await res.json();
+        console.log(json);
+
         setData(json?.data || []);
       } catch (err: unknown) {
         if (err instanceof Error) {
