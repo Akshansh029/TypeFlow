@@ -79,13 +79,16 @@ export default function Navbar() {
             <p className="text-sm text-[#e5e5e5]/90 mb-4">
               Test your typing speed and improve your skills
             </p>
-            {NAV_ITEMS.map(({ href, label, icon: Icon }) => (
+            {NAV_ITEMS.map(({ href, label, icon: Icon, color }) => (
               <Link
                 key={href}
                 href={href}
                 className="flex items-center gap-4 py-2 px-3"
               >
-                <Icon className="h-8 w-8 text-gray-300 transition-colors" />
+                <Icon
+                  style={{ backgroundColor: color }}
+                  className="h-9 w-9 p-2 text-black transition-colors bg-red-500 rounded-full"
+                />
                 <span className="text-zinc-300">{label}</span>
               </Link>
             ))}
