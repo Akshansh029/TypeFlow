@@ -1,13 +1,14 @@
 "use client";
 
 import { Github, Linkedin, Code2 } from "lucide-react";
+import { FiGithub } from "react-icons/fi";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 const About = () => {
   return (
-    <div className="h-[calc(100vh-88px)] bg-primary flex flex-col gap-6 items-center justify-center px-6 md:px-12 ">
+    <div className="h-[calc(100vh-88px)] bg-primary flex flex-col items-center justify-center px-6 md:px-12 ">
       <div className="flex flex-col gap-12 w-full max-w-5xl items-center">
         {/* Creator Info */}
         <div className="flex flex-col items-center space-y-4">
@@ -75,8 +76,11 @@ const About = () => {
           Feel free to check out the repository and enhance the platform.
         </p>
         <Link href="https://github.com/Akshansh029/typeflow" target="_blank">
-          <Button className="flex gap-2 bg-indigo-600 hover:bg-indigo-700 cursor-pointer">
-            View Repository
+          <Button
+            className="flex gap-2 bg-neutral-100 cursor-pointer text-black font-bold"
+            variant="secondary"
+          >
+            Star on GitHub <FiGithub className="w-5 h-5" />
           </Button>
         </Link>
       </div>
